@@ -1,227 +1,623 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Thumbnails Course</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #0c0c0e;
-            color: #d1d5db;
-            scroll-behavior: smooth;
-        }
 
-        .glass-card {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px) brightness(1.1);
-            -webkit-backdrop-filter: blur(10px) brightness(1.1);
-            border-radius: 1.5rem;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .glass-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-        }
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
-        .section-padding {
-            padding: 4rem 1.5rem;
-        }
-        @media (min-width: 768px) {
-            .section-padding {
-                padding: 6rem 4rem;
-            }
-        }
-        .animated-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .animated-section.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+// --- DATA CONSTANTS ---
 
-        /* Hero Slider Styles */
-        .hero-slider-container {
-            width: 100%;
-            height: 400px;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-slide {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-            z-index: 1;
-        }
-        .hero-slide.active {
-            opacity: 1;
-            z-index: 2;
-        }
-        .hero-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .hero-slider-nav button {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            color: #fff;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-        .hero-slider-nav button:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-        
-        .nav-bar {
-            background-color: rgba(12, 12, 14, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            width: 100%;
-        }
+const NAV_LINKS = [
+    { href: '#course-content', text: 'محتوى الكورس' },
+    { href: '#features', text: 'المميزات' },
+    { href: '#course-applications', text: 'تطبيقات عملية' },
+    { href: '#student-work', text: 'أعمال الطلاب' },
+    { href: '#pricing', text: 'الأسعار' },
+    { href: '#testimonials', text: 'آراء الطلاب' },
+    { href: '#about', text: 'عن إبراهيم' },
+    { href: '#social-media', text: 'تواصل' },
+];
 
-        .nav-link:hover {
-            color: #4ade80;
-        }
+const HERO_IMAGES = [
+    "https://i.postimg.cc/hGhz3Jmy/image.jpg",
+    "https://i.postimg.cc/SxSFysgC/image.jpg"
+];
 
-        .collapsible-header {
-            cursor: pointer;
-            padding: 1rem 1.25rem;
-            background-color: rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-weight: 700;
-            font-size: 1.25rem;
-            border-radius: 0.75rem;
-            margin-bottom: 0.5rem;
-            transition: background-color 0.3s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .collapsible-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.7s ease-out;
-            background-color: rgba(255, 255, 255, 0.03);
-            border-radius: 0 0 0.75rem 0.75rem;
-        }
+const COURSE_LEVELS = [
+    {
+        title: "Level 1",
+        lessons: [
+            "درس رقم 1 ليه لازم تتخصص في مجال معين", "درس رقم 2 تعريف الصور المصغرة وأهميتها", "درس رقم 3 عناصر التصميم الجرافيك ... الخطوط", "درس رقم 4 عناصر التصميم الجرافيك ... الاشكال", "درس رقم 5 إزاي تختار الألوان الصح في التصميم السر وراء تنسيق الألوان الاحترافي", "درس رقم 6 فوتوشوب من الصفر: إعداد مساحات العمل وأساسيات الاستخدام - الجزء 1", "درس رقم 7 فوتوشوب من الصفر: إعداد مساحات العمل وأساسيات الاستخدام - الجزء 2", "درس رقم 8 الماسك في فوتوشوب ببساطة.. إزاي تستخدمه صح؟", "درس رقم 9 قص الصور في فوتوشوب بسهولة..", "درس رقم 10 اختيار حجم الشخص المناسب في التصميم.. السر ورا الشوت الصح", "درس رقم 11 كاميرا رو فلتر.. هنفهمه صح ونشرح أسراره", "درس رقم 12 أشهر مواقع الذكاء الاصطناعي للمصممين.. لازم تعرفها", "درس رقم 13 إزاي تكتب برومبت صح؟ فهم الإضاءة هو المفتاح", "درس رقم 14 إزاي تكتب برومبت احترافي؟ أسرار زوايا الكاميرا", "درس رقم 15 اعرف الخطوط اللي هترفع شغلك لفوق (حلقة أنواع الخطوط)", "درس رقم 16 أساسيات الإليستريتور اللي هتسهل عليك كل حاجة (حلقة أدوات الإليستريتور)", "درس رقم 17 إزاي تعمل تابيو يشد العين؟ (حلقة تصميم التابيو)", "درس رقم 18 إزاي تعمل تأثير 3D بالذكاء الصناعي بكل سهولة؟ (تأثير 3D)", "درس رقم 19 إزاي تعمل تكست إفكت احترافي يلفت الانتباه؟", "درس رقم 20 تعلم رسم الإضاءة باحترافية.. التحكم الكامل في الضوء والظل", "درس رقم 21 إزاي تعمل ريتاتش احترافي؟ سر نعومة البشرة والتفاصيل", "درس رقم 22 إزاي تجيب أفكار كريتيف وتفهم البريف من العميل", "درس رقم 23 إزاي تعمل تصميم صورة مصغرة جامد – الجزء الأول", "درس رقم 24 إzاي تعمل تصميم صورة مصغرة جامد – الجزء الثاني", "درس رقم 25 إزاي تعمل صورة مصغرة بنفس ستايل أبو فلة بسهولة", "درس رقم 26 إزاي تعمل صورة مصغرة باحترافية على طريقة الدحيح", "درس رقم 27 إزاي توصل لأول عميل وتخليه يقتنع بشغلك"
+        ]
+    },
+    {
+        title: "Level 2",
+        lessons: [
+            "1- إزاي تصمم ثمنيل لريلز ألوان، خط، صورة.. كل حاجة ورا ثمنيل", "2- تطبيق عملي لتصميم ثمنيل ريلز | تعال أقولك تجيب الأفكار منين", "3- تطبيق عملي: ستايل الترند في ثمنيل الريلز بأسهل طريقة", "4- تطبيق عملي على تصميم الريلز– خطوة بخطوة", "5- نقطة ومن اول سطر", "6 - أسرار الـ Blend Modes | طرق عملية ومختلفة في استخدمها", "7- كاميرا رو مستوي التاني | هنتعلم تصحيح ألوان لتفاصيل الإضاءة والستايل النهائي", "8- أسرار الريتاتش الاحترافي في الصور المصغرة – شغل المحترفين بقى", "9- رحلتي مع العميل – إزاي اتعاملت معاه وطلّعت فكرة التصميم بالظبط.", "10- ازي تجيب الصوره الي علي مزاجك بالـ AI – أسهل طريقة تجيب الصور اللي محتاجها.", "11- تصميم صورة مصغرة خطوة بخطوة – وتعديل وضعية الجسم لو مش مضبوطة", "12- غير لون التيشيرت في ثانيتين – تعديل ألوان الملابس ببساطة", "13- الإضاءة سر قوة التصميم – إزاي ترسم وتضيف إضاءة", "14- دمج وإضافة العناصر جوه التصميم – عشان يطلع متكامل", "15- شرح ريتاتش ولمسات أخيرة – تقفيل تصميم صح.", "16- حل مشاكل قص الصور في ثانية واحدة بالـ AI", "17- شرح تحديثات فوتوشوب 2025 هيسرع شغلك 180 درجة", "18- مواقع AI مجانية  هتغير مفهومك عن التصميم وهتسرع شغلك"
+        ]
+    },
+    {
+        title: "Level 3",
+        lessons: [
+            "1- غير وضعية الجسم لأي بوز في ثواني", "2-غير لبس أي شخص بضغطة زر واحدة بس", "3- تطبيق عملي: إزاي تعمل ثمنيل مراجعة مدرسين احترافي بسهولة", "4- ازاي تعمل ثمنيل لمستر محمد صلاح باحتراف – خطوة بخطوة", "5-احترف ثمنيل المدرسين: تعديل الجسم بشكل احترافي من الصفر", "6- ازاي تعمل ثمنيل بشكل سينمائي", "7- تطبيق عملي متقدم | تصميم ثمنيل لمحمد صلاح – الجزء الأول", "8- تطبيق عملي متقدم | تصميم ثمنيل لمحمد صلاح – الجزء الثاني", "9- ازاي تعمل تكست افكت بي AI بكل سهولة"
+        ]
+    },
+    {
+        title: "Level 4",
+        lessons: [
+            "1- الجزء الأول: ما هو التكوين؟ وازاي تستخدمه صح في تصميمك؟",
+            "2- الجزء التاني:أشهر وأهم قواعد التكوين اللي لازم تعرفها قبل ما تبدأ أي تصميم",
+            "3- ثمنيل محترفين | ازاي تذاكر صح ستايل MrBeast",
+            "4- ترتيب العناصر جوه تصميم| تطبيق عملي MrBeast",
+            "5-احتراف التنفيذ – خلي تصميمك شبه المحترفين | تطبيق عملي MrBeast",
+            "6- احترف التصميم | تطبيق عملي MrBeast",
+            "7- ازاي تقفل تصميم بشكل احترافي | تطبيق عملي | MrBeast Style",
+            "8- ازاي تعمل ثمنيل زي قناه اقتصاد كوكب"
+        ]
+    }
+];
 
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.75);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-close-button {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background-color: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            color: #d1d5db;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 10000;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .modal-close-button:hover {
-            background-color: rgba(255, 255, 255, 0.4);
-            color: white;
-        }
-        
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
+const FEATURES = [
+    { icon: 'fas fa-comment-dots', color: 'text-blue-400', title: 'فيديوهات مسجلة ودعم مدى الحياة', description: 'من الحاجات اللي بتميز الكورس بتاعي إنه مسجل فيديوهات كاملة تقدر تتابعها براحتك على تليجرام، وبتفضل معاك مدى الحياة، يعني حتى لو مشغول أو حصل أي ظرف، تقدر توقف وترجع تكمل في أي وقت.' },
+    { icon: 'fas fa-camera-retro', color: 'text-green-400', title: 'شرح تفصيلي لفلتر Camera Raw', description: 'هتتعلم إزاي تستخدم الكاميرا رو باحتراف، وتحوّل أي صورة لمود مختلف تماماً يخدم فكرتك ويشد العين.' },
+    { icon: 'fas fa-magic', color: 'text-teal-400', title: 'ريتاتش احترافي زي الإعلانات', description: 'هتتعلم خطوات الريتاتش اللي بتتشاف في الإعلانات الكبيرة، سواء للبشرة أو الملابس أو الإضاءة، علشان التصميم يطلع نضيف ومتقن.' },
+    { icon: 'fas fa-layer-group', color: 'text-lime-400', title: 'توظيف العناصر بشكل احترافي', description: 'إزاي توظف الأشكال والـ Icons والـ Text علشان توصل الرسالة المطلوبة من التصميم بشكل واضح وبسيط.' },
+    { icon: 'fas fa-lightbulb', color: 'text-emerald-400', title: 'تطبيقات عملية متنوعة', description: 'كل ده مش كلام بس، هتشتغل على تطبيقات حقيقية في مجالات مختلفة زي: تصميم لمحتوى رياضي، محتوى تعليمي، مدونات Vlog، ومشاريع كاملة من الفكرة للتنفيذ.' },
+    { icon: 'fas fa-users', color: 'text-blue-400', title: 'جروب خاص للمناقشة والتطوير', description: 'هتكون مع ناس بتحب التصميم زيك، بنعمل تحديات مع بعض علشان نطوّر مستوانا ونحفّز بعض.' },
+    { icon: 'fas fa-sync-alt', color: 'text-yellow-400', title: 'تحديثات مستمرة للكورس', description: 'الكورس دايمًا في تحديثات علشان نواكب السوق، خصوصًا إن الفترات دي بيحصل تغييرات وتقنيات جديدة لازم نعرفها مع بعض.' },
+];
 
-        .form-input {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #e5e7eb;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            width: 100%;
-            transition: border-color 0.3s ease;
-        }
-        .form-input:focus {
-            outline: none;
-            border-color: #4ade80;
-            box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.5);
-        }
-        
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #1a1a1f;
-            z-index: 60;
-            transition: transform 0.3s ease-in-out;
-            transform: translateY(-100%);
-        }
-        .mobile-menu.active {
-            transform: translateY(0);
-        }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
-  }
+const COURSE_APP_IMAGES = ["https://i.postimg.cc/q7Zn8qKf/khals.jpg", "https://i.postimg.cc/k57tr8Qg/khals.jpg", "https://i.postimg.cc/HWfN308k/image.jpg", "https://i.postimg.cc/wBL8cW0H/image.jpg", "https://i.postimg.cc/FRTPj35N/image.jpg", "https://i.postimg.cc/kMZsqn71/image.jpg", "https://i.postimg.cc/QCqHdXrV/1.jpg", "https://i.postimg.cc/kXf2rXcp/2.jpg", "https://i.postimg.cc/cLCrdyk4/3.jpg", "https://i.postimg.cc/FH61RWwb/4.jpg", "https://i.postimg.cc/bv2r20j7/5.jpg", "https://i.postimg.cc/pTfds2rk/6.jpg", "https://i.postimg.cc/MZYTRKhp/11.jpg", "https://i.postimg.cc/YqnCnD2c/12.jpg", "https://i.postimg.cc/7L7PLx3D/13.jpg", "https://i.postimg.cc/rmN8SQZP/14.jpg", "https://i.postimg.cc/mkZTVC02/7.jpg", "https://i.postimg.cc/2jTky9Zq/8.jpg", "https://i.postimg.cc/6539vVrM/9.jpg", "https://i.postimg.cc/28KCFqTr/10.jpg", "https://i.postimg.cc/qqwS0YDR/15.jpg", "https://i.postimg.cc/P5zBvdbH/image.jpg"];
+const STUDENT_WORK_IMAGES = ["https://i.postimg.cc/wMqRTKDb/1.jpg", "https://i.postimg.cc/nzZC08Sc/2.jpg", "https://i.postimg.cc/dtzQ5PLP/3.jpg", "https://i.postimg.cc/B6kZkdMK/6.jpg", "https://i.postimg.cc/mrrbDbn9/10.jpg", "https://i.postimg.cc/t4qbSqpc/12.jpg", "https://i.postimg.cc/DwwVQxck/11.jpg", "https://i.postimg.cc/j2h4Y0g4/5891124924884567986.jpg", "https://i.postimg.cc/pX4pVcwf/4.jpg", "https://i.postimg.cc/JhW0ZD4t/3.jpg", "https://i.postimg.cc/zBzf2shr/1.jpg", "https://i.postimg.cc/QMb87fyn/6.jpg", "https://i.postimg.cc/pXFPCWSj/7.jpg", "https://i.postimg.cc/W1mTR9Tb/10.jpg", "https://i.postimg.cc/KYZFmn87/11.jpg", "https://i.postimg.cc/XvQWqprR/image.jpg", "https://i.postimg.cc/63PNVgLz/13.jpg", "https://i.postimg.cc/GtCKN2Xn/5969871217521444122.jpg", "https://i.postimg.cc/sx5hk4vT/5949337949541878950.jpg", "https://i.postimg.cc/tJdy62SQ/image.jpg", "https://i.postimg.cc/HjGcYZrq/2-copy.jpg", "https://i.postimg.cc/qqwS0YDR/image.jpg"];
+
+const TESTIMONIALS = [
+    "الحمد لله بعد بحث طويل، أخيرًا لقيت حد يشرح فوتوشوب بطريقة مفهومة وسلسة. أستاذ إبراهيم بيشرح كل حاجة بالتفصيل، ويعلمنا تريكات ناس كتير بتخبيها. شكراً على احترامك ومتابعتك المستمرة. جزاك الله خيرا",
+    "صباح الخير مستر ابراهيم. بصراحة، أنا كنت متردد في البداية قبل ما أشترك معاك على وجه الخصوص انك قولت لي انها قناه على تليجرام... لكن بعد ما اشتركت معك وبدأت أتابع الفيديوهات… حقيقي، لازم أقولها لك من قلبي: شغلك محترم جدًا، وشطارتك باينة من أول دقيقة، والمحتوى اللي بتقدمه منظم وواضح وبيعكس إن وراك مجهود وتعب وشغل أيام وفهم حقيقي. انا لي الشرف انى بقيت معاك، وبقيت من متابعيك، وسعيد جدا إن في جيل جديد من المدربين عنده الشغف والجودة بالشكل ده.",
+    "ما شاء الله، الكورس منظم وأسلوبك بسيط وجميل. أكتر حاجة عجبتني إنك بتشرح كل طريقة للتنفيذ وبتقول إيه الأفضل وامتى نستخدمها. بالتوفيق دايمًا، وأنصح أي حد يبدأ بالكورس ده فورا.",
+    "أنا جربت كورسات قبل كده، بس علطول بحس إن المعلومات إما معقدة أو مش عملي لكن كورس أستاذ إبراهيم فعلامختلف علمي إزاي أفكر كمصمم مش مجرد أحفظ خطواتوده اللي فرق معايا في الشغل. دلوقتي بقيت بعرف أتعامل مع العميل أعرف إزاي أسمع منه واطلع له تصميم يعجبه وكل ده بسبب الاساس الي في مستوي الاول بس ممتن اوي اوي ليك.",
+    "الكورس ساعدني أرتب دماغي كمصمم. كنت بعرف حاجات من هنا وهنا، بس مكنتش عارف ابدا منين ولا إزاي أتعامل مع عميل. لما أخدت الكورس لقيت نفسي بتعلم كل حاجة بالترتيب من الفكرة لحد تسليم التصميم واللي عجبني أكتر إن في تمارين عملية بتخليك تطبق وتشتغل فعلا. وبعد ما خلصته بدأت أنزل شغل على السوشيال ميديا، وفعلا جالي أول عميل بعدها بأسبوع.",
+    "أنا من الناس اللي كانت بتخاف نبدا في مجال التصميم علطول حاسس إنه صعب ومعقد ومفيهوش شغل بسهولة بس والله الكورس ده كسر عندي كل الحواجز. اتعلمت الأساسيات والترتيب الصح، وبقيت أعرف أطلع شغل شكله احترافي. دلوقتي بقيت بستقبل رسائل من ناس عايزة تشتغل معايا وده كله بعد الكورس بشهرين بالضبط.تسلم اوي ياهيما انا اتفتحلي باب ماكنتش متخيله.",
+    "احسن حاجة في الكورس إنك بتحس إن اللي قدامك مش مدرس لا ده أخ كبير فاهم المجال وبيساعدك تطلع أفضل نسخة من نفسك أنا اتعلمت أشتغل بسرعة أنظم شغلي وأفكر إزاي اخلي التصميم يبيع. مهم من ده كله بقيت واثق من شغلي وقدرت أكلم عملاء وأنا عارف أنا بعمل إيه، مش مجرد بخبط تصميمات عشوائية. شكراً من قلبي بجد.",
+    "محتوى الكورس شامل كل المعلومات اللي تخليك من الصفر إلى الأحترافية في مدة صغيرة جدا وده زائد المتابعة مع مستر إبراهيم بخيت اللي كان بيجاوب على كل سؤال خلال فترة الكورس."
+];
+
+const SOCIAL_LINKS = [
+    { href: "https://www.instagram.com/ibrahem_bakheet/", icon: "fab fa-instagram", color: "hover:text-pink-400" },
+    { href: "https://www.facebook.com/hema.pro.161/", icon: "fab fa-facebook-f", color: "hover:text-blue-400" },
+    { href: "https://www.linkedin.com/in/ibrahem-bakheet-%E2%9C%AA-889920217/", icon: "fab fa-linkedin-in", color: "hover:text-blue-200" },
+    { href: "https://www.youtube.com/@Ibrahem_Bakheet", icon: "fab fa-youtube", color: "hover:text-red-600" },
+    { href: "https://api.whatsapp.com/send?phone=201025199409&text=", icon: "fab fa-whatsapp", color: "hover:text-green-500" },
+];
+
+// --- TYPE DEFINITIONS ---
+
+type PaymentMethod = 'vodafone' | 'paypal' | 'binance';
+interface PaymentInfo {
+    method: PaymentMethod;
+    message: string;
+    whatsappText: string;
 }
-</script>
-</head>
-  <body class="bg-[#0c0c0e] text-gray-200">
-    <div id="root"></div>
-  </body>
-</html>
+
+// --- HELPER COMPONENTS ---
+
+const AnimatedSection: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
+    const ref = useRef<HTMLDivElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                } else {
+                    setIsVisible(false);
+                }
+            },
+            { threshold: 0.1 }
+        );
+
+        if (ref.current) {
+            observer.observe(ref.current);
+        }
+
+        return () => {
+            if (ref.current) {
+                observer.unobserve(ref.current);
+            }
+        };
+    }, []);
+
+    return (
+        <div
+            ref={ref}
+            className={`transition-opacity transform duration-1000 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'} ${className || ''}`}
+        >
+            {children}
+        </div>
+    );
+};
+
+// --- MODAL COMPONENTS ---
+
+interface ImageModalProps {
+    imageUrl: string | null;
+    onClose: () => void;
+}
+
+const ImageModal: React.FC<ImageModalProps> = ({ imageUrl, onClose }) => {
+    if (!imageUrl) return null;
+
+    return (
+        <div 
+            className="fixed inset-0 bg-black/80 flex justify-center items-center z-[9999] transition-opacity duration-300 ease-out opacity-100 visible"
+            onClick={onClose}
+        >
+            <div className="relative max-w-[90vw] max-h-[90vh] p-4" onClick={(e) => e.stopPropagation()}>
+                <img src={imageUrl} alt="Full-size view" className="rounded-xl shadow-2xl max-w-full max-h-full object-contain" />
+                <button 
+                    onClick={onClose} 
+                    className="absolute top-1 right-1 bg-white/20 backdrop-blur-sm text-gray-200 border-none rounded-full w-10 h-10 text-xl flex justify-center items-center cursor-pointer z-[10000] transition-all hover:bg-white/40 hover:text-white" 
+                    aria-label="إغلاق"
+                >
+                    <i className="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    );
+};
+
+interface PaymentModalProps {
+    paymentInfo: PaymentInfo | null;
+    onClose: () => void;
+}
+
+const PaymentModal: React.FC<PaymentModalProps> = ({ paymentInfo, onClose }) => {
+    if (!paymentInfo) return null;
+
+    const whatsappBaseLink = "https://api.whatsapp.com/send?phone=201025199409&text=";
+    const whatsappLink = whatsappBaseLink + encodeURIComponent(paymentInfo.whatsappText);
+
+    return (
+        <div 
+            className="fixed inset-0 bg-black/80 flex justify-center items-center z-[9999] transition-opacity duration-300 ease-out opacity-100 visible"
+            onClick={onClose}
+        >
+            <div className="glass-card relative p-8 text-center flex flex-col max-w-md w-[90%] rounded-xl" onClick={(e) => e.stopPropagation()}>
+                <h3 className="text-2xl font-bold mb-4 text-white">طريقة الدفع</h3>
+                <p className="text-gray-300 font-normal mb-6">{paymentInfo.message}</p>
+                <a 
+                    href={whatsappLink} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="mt-4 bg-[#25d366] text-white py-3 px-6 rounded-lg font-bold hover:bg-[#1da851] transition-colors"
+                >
+                    تواصل معي على واتساب
+                </a>
+                <button 
+                    onClick={onClose} 
+                    className="absolute top-2 right-2 bg-white/20 backdrop-blur-sm text-gray-200 border-none rounded-full w-10 h-10 text-xl flex justify-center items-center cursor-pointer z-[10000] transition-all hover:bg-white/40 hover:text-white" 
+                    aria-label="إغلاق"
+                >
+                    <i className="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    );
+};
+
+// --- SECTIONAL COMPONENTS ---
+
+const Navbar: React.FC = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const closeMenu = () => setIsMenuOpen(false);
+
+    return (
+        <>
+            <nav className="sticky top-0 z-50 shadow-xl bg-black/70 backdrop-blur-lg">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center h-16">
+                        <div className="flex-shrink-0 text-white font-bold text-2xl">
+                            <a href="#">IBRAHEM BAKHEET</a>
+                        </div>
+                        <div className="hidden md:block">
+                            <div className="ml-10 flex items-baseline space-x-4 rtl:space-x-reverse">
+                                {NAV_LINKS.map(link => (
+                                    <a key={link.href} href={link.href} className="text-gray-400 hover:text-green-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                        {link.text}
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="md:hidden">
+                            <button onClick={() => setIsMenuOpen(!isMenuOpen)} type="button" className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+                                <span className="sr-only">Open main menu</span>
+                                <i className="fas fa-bars"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            {/* Mobile Menu */}
+            <div className={`fixed inset-0 bg-[#1a1a1f] z-50 flex-col items-center justify-center transition-transform duration-300 ease-in-out md:hidden ${isMenuOpen ? 'flex translate-y-0' : 'hidden -translate-y-full'}`}>
+                <button onClick={closeMenu} className="absolute top-4 left-4 text-white text-3xl cursor-pointer">
+                    <i className="fas fa-times"></i>
+                </button>
+                <div className="flex flex-col items-center">
+                    {NAV_LINKS.map(link => (
+                        <a key={link.href} href={link.href} onClick={closeMenu} className="text-2xl p-4 text-gray-200 hover:text-green-400 transition-colors">
+                            {link.text}
+                        </a>
+                    ))}
+                </div>
+            </div>
+        </>
+    );
+};
+
+const Hero: React.FC = () => {
+    const [currentSlide, setCurrentSlide] = useState(0);
+
+    const nextSlide = useCallback(() => {
+        setCurrentSlide(prev => (prev + 1) % HERO_IMAGES.length);
+    }, []);
+
+    const prevSlide = () => {
+        setCurrentSlide(prev => (prev - 1 + HERO_IMAGES.length) % HERO_IMAGES.length);
+    };
+
+    useEffect(() => {
+        const timer = setInterval(nextSlide, 5000);
+        return () => clearInterval(timer);
+    }, [nextSlide]);
+
+
+    return (
+        <header id="hero" className="w-full px-4 sm:px-6 lg:px-8 py-8">
+            <div className="relative w-full h-[400px] max-w-7xl mx-auto rounded-xl shadow-2xl overflow-hidden">
+                {HERO_IMAGES.map((src, index) => (
+                    <div key={src} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}>
+                        <img src={src} alt={`Hero Banner ${index + 1}`} className="w-full h-full object-cover" />
+                    </div>
+                ))}
+                <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-4 z-20">
+                    <button onClick={prevSlide} aria-label="السابق" className="bg-white/10 backdrop-blur-sm border-none rounded-full w-10 h-10 text-white text-2xl cursor-pointer transition-all hover:bg-white/30 hover:scale-110">
+                        <i className="fas fa-chevron-left"></i>
+                    </button>
+                    <button onClick={nextSlide} aria-label="التالي" className="bg-white/10 backdrop-blur-sm border-none rounded-full w-10 h-10 text-white text-2xl cursor-pointer transition-all hover:bg-white/30 hover:scale-110">
+                        <i className="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+    );
+};
+
+
+const CollapsibleItem: React.FC<{ title: string; lessons: string[] }> = ({ title, lessons }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    return (
+        <div className="mb-4">
+            <div 
+                onClick={() => setIsExpanded(!isExpanded)} 
+                className="cursor-pointer p-4 px-5 bg-white/5 border-b border-white/10 font-bold text-xl rounded-xl mb-2 transition-colors flex justify-between items-center"
+            >
+                <span>{title}</span>
+                <span className="text-base text-green-400 font-normal ml-2 flex items-center gap-2">
+                    {isExpanded ? 'إخفاء الدروس' : 'عرض الدروس'}
+                    <i className={`fas transition-transform duration-300 ${isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+                </span>
+            </div>
+            <div className={`transition-all duration-700 ease-out overflow-hidden ${isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                <div className="p-5 text-gray-300 bg-white/5 rounded-b-xl">
+                    <ul className="space-y-3 text-base pr-4 font-normal text-right">
+                        {lessons.map((lesson, index) => (
+                            <li key={index} className="flex items-center"><span>{lesson}</span></li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const CourseContent: React.FC = () => (
+    <section id="course-content" className="py-16 px-6 sm:py-24 sm:px-16">
+         <AnimatedSection>
+            <div className="max-w-4xl mx-auto text-center">
+                <h2 className="text-3xl md:text-4xl font-extrabold mb-10 text-green-400">
+                    📚 محتوى الكورس الشامل
+                </h2>
+                <p className="text-lg leading-relaxed font-normal mb-8 text-gray-400">
+                    هنا ستجد قائمة بالدروس التي سيتم تناولها بالتفصيل في كورس "تصميم الصور المصغرة"، لضمان تغطية شاملة لكل جوانب التصميم:
+                </p>
+                <div className="glass-card rounded-3xl p-4 md:p-8">
+                    {COURSE_LEVELS.map(level => (
+                        <CollapsibleItem key={level.title} title={level.title} lessons={level.lessons} />
+                    ))}
+                </div>
+            </div>
+        </AnimatedSection>
+    </section>
+);
+
+
+const Features: React.FC = () => (
+    <section id="features" className="py-16 px-6 sm:py-24 sm:px-16 bg-[#101012]">
+        <AnimatedSection>
+            <div className="max-w-6xl mx-auto text-center">
+                <h2 className="text-3xl md:text-4xl font-extrabold mb-12 text-green-400">
+                    المميزات اللي هتفرق معاك في الكورس
+                </h2>
+                <p className="text-lg leading-relaxed font-normal mb-10 max-w-2xl mx-auto text-gray-400">
+                    في الكورس ده مش هتتعلم أدوات وخلاص، لأ، أنت هتشتغل بإيدك على شغل حقيقي، وهتتعلم حاجات فعلاً بتفرق في أي تصميم احترافي، منها:
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-right">
+                    {FEATURES.map((feature, index) => (
+                         <div key={index} className="glass-card rounded-3xl p-6 md:p-8 flex flex-col items-end transition-transform duration-300 hover:-translate-y-1.5">
+                            <div className={`${feature.color} text-5xl mb-4`}>
+                                <i className={feature.icon}></i>
+                            </div>
+                            <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
+                            <p className="text-gray-400 font-normal">{feature.description}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </AnimatedSection>
+    </section>
+);
+
+interface GalleryProps {
+    id: string;
+    title: string;
+    description: string;
+    images: string[];
+    onImageClick: (url: string) => void;
+    bgColor?: string;
+}
+
+const Gallery: React.FC<GalleryProps> = ({ id, title, description, images, onImageClick, bgColor = 'bg-transparent' }) => (
+    <section id={id} className={`py-16 px-6 sm:py-24 sm:px-16 ${bgColor}`}>
+         <AnimatedSection>
+            <div className="max-w-6xl mx-auto text-center">
+                <h2 className="text-3xl md:text-4xl font-extrabold mb-12 text-green-400">
+                    {title}
+                </h2>
+                <p className="text-lg leading-relaxed font-normal mb-10 max-w-2xl mx-auto text-gray-400">
+                    {description}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {images.map((src, index) => (
+                        <div key={index} className="glass-card rounded-3xl aspect-video overflow-hidden group cursor-pointer" onClick={() => onImageClick(src)}>
+                            <img src={src} alt={`Gallery item ${index + 1}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </AnimatedSection>
+    </section>
+);
+
+const Testimonials: React.FC = () => (
+    <section id="testimonials" className="py-16 px-6 sm:py-24 sm:px-16">
+         <AnimatedSection>
+            <div className="max-w-6xl mx-auto text-center">
+                <h2 className="text-3xl md:text-4xl font-extrabold mb-12 text-green-400">
+                    آراء طلابنا
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {TESTIMONIALS.slice(0, 8).map((testimonial, index) => (
+                        <div key={index} className="glass-card rounded-3xl p-6 flex flex-col items-center justify-center text-center transition-transform duration-300 hover:-translate-y-1.5">
+                            <div className="flex text-yellow-400 mb-4 text-2xl">
+                                {[...Array(5)].map((_, i) => <i key={i} className="fas fa-star"></i>)}
+                            </div>
+                            <p className="text-lg italic text-gray-300">"{testimonial}"</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </AnimatedSection>
+    </section>
+);
+
+
+const Pricing: React.FC<{ onBookNowClick: (method: PaymentMethod) => void }> = ({ onBookNowClick }) => (
+    <section id="pricing" className="py-16 px-6 sm:py-24 sm:px-16">
+         <AnimatedSection>
+            <div className="max-w-4xl mx-auto text-center">
+                <h2 className="text-3xl md:text-4xl font-extrabold mb-10 text-green-400">
+                    💰 خطط الأسعار
+                </h2>
+                <p className="text-lg leading-relaxed font-normal mb-8 text-gray-400">
+                    استثمر في نفسك مرة واحدة فقط واحصل على كل ما تحتاجه لتصبح مصمم محترف.
+                </p>
+                <div className="glass-card rounded-3xl p-8 md:p-12 text-right transition-transform duration-300 hover:-translate-y-1.5">
+                    <h3 className="text-3xl md:text-4xl font-bold text-green-400 mb-2">الكورس الشامل</h3>
+                    <p className="text-gray-400 text-lg font-normal mb-6">احصل على كل محتوى الكورس، التحديثات المستقبلية، والمتابعة الشخصية.</p>
+                    <div className="mb-8 flex items-end justify-center md:justify-end gap-2">
+                        <span className="text-4xl md:text-6xl font-extrabold text-white">2000 EGP</span>
+                        <span className="text-lg md:text-2xl text-gray-500 font-normal line-through">3000 EGP</span>
+                    </div>
+                    <ul className="space-y-4 text-white font-normal mb-8 text-right">
+                        <li className="flex items-center text-lg justify-end">
+                            <span className="text-gray-400">مع كل التحديثات والإضافات الجديدة من غير أي رسوم إضافية.</span>
+                            <span className="font-bold mr-1">اشتراك مدى الحياة</span>
+                            <i className="fas fa-check-circle text-green-400 mr-2"></i>
+                        </li>
+                         <li className="flex items-center text-lg justify-end">
+                            <span className="text-gray-400">كل الملفات، الخطوط، والأدوات المستخدمة في الكورس.</span>
+                             <span className="font-bold mr-1">الوصول لجميع الملحقات</span>
+                            <i className="fas fa-check-circle text-green-400 mr-2"></i>
+                        </li>
+                         <li className="flex items-center text-lg justify-end">
+                            <span className="text-gray-400">تقدر تسألني في أي وقت وهرد عليك علشان أساعدك تحل مشاكلك وتطور شغلك.</span>
+                            <span className="font-bold mr-1">دعم شخصي مني 💬</span>
+                            <i className="fas fa-check-circle text-green-400 mr-2"></i>
+                        </li>
+                    </ul>
+                    <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+                        <button onClick={() => onBookNowClick('vodafone')} className="w-full sm:w-auto px-8 py-4 rounded-full text-white font-bold bg-green-500 hover:bg-green-600 transition-colors">
+                            احجز الآن عبر فودافون كاش
+                        </button>
+                         <button onClick={() => onBookNowClick('paypal')} className="w-full sm:w-auto px-8 py-4 rounded-full text-white font-bold bg-green-500 hover:bg-green-600 transition-colors">
+                            الدفع عبر PayPal
+                        </button>
+                        <button onClick={() => onBookNowClick('binance')} className="w-full sm:w-auto px-8 py-4 rounded-full text-white font-bold bg-green-500 hover:bg-green-600 transition-colors">
+                            الدفع عبر Binance
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </AnimatedSection>
+    </section>
+);
+
+
+const About: React.FC = () => (
+    <section id="about" className="py-16 px-6 sm:py-24 sm:px-16 bg-[#101012]">
+         <AnimatedSection>
+            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
+                <div className="md:w-1/3 flex justify-center flex-col items-center">
+                    <img src="https://i.postimg.cc/zXmLwcfx/image.jpg" alt="صورة إبراهيم بخيت" className="w-64 h-64 md:w-80 md:h-80 object-cover rounded-full shadow-lg border-4 border-green-400 transform transition-transform duration-500 hover:scale-105 mb-4" />
+                </div>
+                <div className="md:w-2/3 text-center md:text-right">
+                    <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-green-400">
+                        عن إبراهيم بخيت وكورس الصور المصغرة
+                    </h2>
+                    <p className="text-lg leading-relaxed font-normal text-gray-400">
+                        أنا <span className="font-bold text-green-400">إبراهيم بخيت</span>، مصمم جرافيك بخبرة تزيد عن 6 سنوات في مجال تصميم الصور المصغرة. جئت لأنقل لك كل خبرتي العملية في كورس واحد شامل، يضع بين يديك أدوات وأسرار احتراف التصميم لتمكينك من صناعة صور مصغرة فريدة وجذابة.
+                    </p>
+                </div>
+            </div>
+        </AnimatedSection>
+    </section>
+);
+
+
+const Contact: React.FC = () => {
+    const [message, setMessage] = useState('');
+    const whatsappBaseLink = "https://api.whatsapp.com/send?phone=201025199409&text=";
+
+    const handleSend = () => {
+        const defaultMessage = "مرحباً إبراهيم، لدي استفسار بخصوص الكورس.";
+        const whatsappText = message.trim() ? message : defaultMessage;
+        const whatsappUrl = whatsappBaseLink + encodeURIComponent(whatsappText);
+        window.open(whatsappUrl, '_blank');
+    };
+
+    return (
+        <section id="social-media" className="py-16 px-6 sm:py-24 sm:px-16 bg-[#0c0c0e]">
+            <AnimatedSection>
+                <div className="max-w-4xl mx-auto py-10 text-center">
+                    <h2 className="text-3xl md:text-4xl font-extrabold mb-8 text-green-400">تابعني وتواصل معي</h2>
+                    <p className="text-lg md:text-xl font-normal mb-10 text-gray-400">لا تفوت التحديثات والنصائح القيمة، وكن جزءًا من مجتمع إبراهيم بخيت!</p>
+                    <div className="flex justify-center space-x-6 rtl:space-x-reverse mb-12">
+                        {SOCIAL_LINKS.map(link => (
+                             <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className={`text-white text-4xl transform hover:scale-110 transition-transform ${link.color}`}>
+                                <i className={link.icon}></i>
+                            </a>
+                        ))}
+                    </div>
+                    <div className="glass-card rounded-3xl p-8 md:p-12 text-right">
+                        <h3 className="text-2xl md:text-3xl font-bold mb-6 text-white text-center">أرسل استفسارك مباشرة</h3>
+                        <p className="text-gray-400 text-center font-normal mb-8">اكتب رسالتك وسنرسلها مباشرة إلى واتساب.</p>
+                        <div className="space-y-4">
+                            <textarea 
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                className="bg-white/5 border border-white/10 text-gray-200 p-3 rounded-lg w-full h-32 resize-none font-normal focus:outline-none focus:border-green-400 focus:ring-2 focus:ring-green-400/50 transition-colors" 
+                                placeholder="اكتب رسالتك هنا..." 
+                                aria-label="اكتب رسالتك هنا"
+                            ></textarea>
+                            <button onClick={handleSend} className="w-full px-8 py-4 rounded-full text-white font-bold bg-green-500 hover:bg-green-600 transition-colors">
+                                أرسل عبر واتساب <i className="fab fa-whatsapp ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </AnimatedSection>
+        </section>
+    );
+};
+
+const Footer: React.FC = () => (
+    <footer className="bg-[#101012] text-gray-500 py-8 text-center">
+        <div className="max-w-6xl mx-auto">
+            <p className="font-normal">&copy; 2024 كورس إبراهيم بخيت. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+);
+
+// --- MAIN APP COMPONENT ---
+
+export default function App() {
+    const [modalImageUrl, setModalImageUrl] = useState<string | null>(null);
+    const [paymentInfo, setPaymentInfo] = useState<PaymentInfo | null>(null);
+
+    const handleImageClick = (url: string) => {
+        setModalImageUrl(url);
+    };
+
+    const handleOpenPaymentModal = (method: PaymentMethod) => {
+        let info: PaymentInfo;
+        if (method === 'vodafone') {
+            info = { method, message: "علشان تحجز مكانك بسعر الخصم، حوّل 2000 جنيه على فودافون كاش 01025199409 وبعد التحويل ابعتلي صورة الإيصال على واتساب عشان أفعّل اشتراكك فورًا أي استفسار، أنا معاك", whatsappText: "مرحباً إبراهيم، أود الاستفسار عن كورس الصور المصغرة والدفع عبر فودافون كاش." };
+        } else if (method === 'paypal') {
+            info = { method, message: "لو محتاج تدفع باي بال تواصل معي على واتساب.", whatsappText: "مرحباً إبراهيم، أود الاستفسار عن كورس الصور المصغرة والدفع عبر باي بال." };
+        } else {
+            info = { method, message: "لو عايز تدفع بي بينانس تواصل معي على واتساب.", whatsappText: "مرحباً إبراهيم، أود الاستفسار عن كورس الصور المصغرة والدفع عبر بينانس." };
+        }
+        setPaymentInfo(info);
+    };
+
+    const handleCloseModals = () => {
+        setModalImageUrl(null);
+        setPaymentInfo(null);
+    };
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                handleCloseModals();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return (
+        <div className="bg-[#0c0c0e] text-gray-200">
+            <Navbar />
+            <main>
+                <Hero />
+                <CourseContent />
+                <Features />
+                <Gallery 
+                    id="course-applications" 
+                    title="من الفكرة للتصميم – تطبيقات عملية من الكورس"
+                    description="شاهد بعض التطبيقات العملية التي ستتعلمها خطوة بخطوة في الكورس، لترى كيف تتحول الأفكار إلى تصاميم احترافية:"
+                    images={COURSE_APP_IMAGES} 
+                    onImageClick={handleImageClick}
+                />
+                 <Gallery 
+                    id="student-work" 
+                    title="أعمال طلابنا"
+                    description="شاهد إبداعات طلابنا الذين بدأوا رحلتهم معنا وحققوا نتائج مذهلة!"
+                    images={STUDENT_WORK_IMAGES} 
+                    onImageClick={handleImageClick}
+                    bgColor="bg-[#101012]"
+                />
+                <Testimonials />
+                <Pricing onBookNowClick={handleOpenPaymentModal} />
+                <About />
+                <Contact />
+            </main>
+            <Footer />
+
+            {modalImageUrl && <ImageModal imageUrl={modalImageUrl} onClose={handleCloseModals} />}
+            {paymentInfo && <PaymentModal paymentInfo={paymentInfo} onClose={handleCloseModals} />}
+        </div>
+    );
+}
