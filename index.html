@@ -9,7 +9,9 @@
     <!-- Font Awesome for social media icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;800&display=swap');
+        /* استيراد خط Bebas Neue للاسم الإنجليزي و Tajawal للنصوص العربية */
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+        
         body {
             font-family: 'Tajawal', sans-serif;
             background-color: #0c0c0e;
@@ -17,6 +19,34 @@
             scroll-behavior: smooth;
         }
 
+        /* تنسيقات الهيدر المخصصة */
+        .nav-link {
+            position: relative;
+            color: #d1d5db; /* رمادي فاتح */
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            right: 0;
+            background-color: #4ade80; /* اللون الأخضر */
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #4ade80;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* بقية التنسيقات السابقة */
         .glass-card {
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -32,11 +62,11 @@
         }
 
         .section-padding {
-            padding: 4rem 1.5rem;
+            padding: 3rem 1.25rem;
         }
         @media (min-width: 768px) {
             .section-padding {
-                padding: 6rem 4rem;
+                padding: 4rem 3rem;
             }
         }
         .animated-section {
@@ -48,20 +78,18 @@
             opacity: 1;
             transform: translateY(0);
         }
-        .hero-title {
-            animation: fadeIn 1.5s ease-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        
         /* Hero Slider Styles */
         .hero-slider-container {
             width: 100%;
-            height: 400px;
+            height: 350px;
             position: relative;
             overflow: hidden;
+        }
+        @media (min-width: 768px) {
+            .hero-slider-container {
+                height: 450px;
+            }
         }
         .hero-slide {
             width: 100%;
@@ -101,29 +129,25 @@
         }
         
         .nav-bar {
-            background-color: rgba(12, 12, 14, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background-color: rgba(12, 12, 14, 0.95); /* لون داكن جداً */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             position: sticky;
             top: 0;
             z-index: 50;
             width: 100%;
+            border-bottom: 1px solid rgba(255,255,255,0.08); /* خط فاصل رفيع */
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4); /* ظل خفيف */
+            transition: all 0.3s ease;
         }
 
-        .nav-link {
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: #4ade80;
-        }
         .collapsible-header {
             cursor: pointer;
             padding: 1rem 1.25rem;
             background-color: rgba(255, 255, 255, 0.05);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             font-weight: 700;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             border-radius: 0.75rem;
             margin-bottom: 0.5rem;
             transition: background-color 0.3s ease;
@@ -134,14 +158,14 @@
         .collapsible-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.7s ease-out, opacity 0.7s ease-out;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
             opacity: 0;
             padding: 0 1.25rem;
             background-color: rgba(255, 255, 255, 0.03);
             border-radius: 0 0 0.75rem 0.75rem;
         }
         .collapsible-content.expanded {
-            max-height: 1000px;
+            max-height: 1500px;
             opacity: 1;
             padding: 1.25rem;
         }
@@ -153,7 +177,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.75);
+            background-color: rgba(0, 0, 0, 0.85);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -161,6 +185,7 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
+            padding: 1rem;
         }
         .modal-overlay.active {
             opacity: 1;
@@ -196,6 +221,7 @@
             padding: 2rem;
             border-radius: 1rem;
             max-width: 500px;
+            width: 100%;
             text-align: center;
             flex-direction: column;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -220,24 +246,8 @@
 
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .testimonial-card-grid {
-            min-height: 250px;
-        }
-
-        .testimonial-inner-card-grid {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease;
-        }
-        .testimonial-inner-card-grid:hover {
-             background-color: rgba(255, 255, 255, 0.08);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
         }
 
         .form-input {
@@ -291,35 +301,63 @@
             font-size: 2rem;
             cursor: pointer;
         }
+        
+        /* Pricing Section Specifics */
+        .pricing-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            box-shadow: 0 0 40px rgba(74, 222, 128, 0.1);
+        }
+        .pricing-ribbon {
+            background: linear-gradient(90deg, rgba(220, 38, 38, 0.8) 0%, rgba(185, 28, 28, 0.9) 100%);
+        }
+        
+        .antialiased {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
     </style>
 </head>
-<body class="bg-[#0c0c0e] text-gray-200">
+<body class="bg-[#0c0c0e] text-gray-200 antialiased">
 
-    <!-- Navigation Bar -->
-    <nav class="nav-bar shadow-xl">
+    <!-- New Header Design -->
+    <nav class="nav-bar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0 text-white font-bold text-2xl">
-                    <a href="#">IBRAHEM BAKHEET</a>
+            <div class="flex justify-between items-center h-20"> <!-- Increased height for padding -->
+                
+                <!-- Logo Section -->
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <!-- Optional Icon -->
+                    <div class="w-10 h-10 rounded-full bg-[#4ade80]/10 flex items-center justify-center border border-[#4ade80]/30">
+                        <i class="fas fa-layer-group text-[#4ade80] text-xl"></i>
+                    </div>
+                    <!-- Brand Name -->
+                    <a href="#" class="text-white tracking-wider group">
+                        <span class="font-['Bebas_Neue'] text-3xl md:text-4xl block leading-none group-hover:scale-105 transition-transform duration-300">
+                            IBRAHEM <span class="text-[#4ade80]">BAKHEET</span>
+                        </span>
+                    </a>
                 </div>
-                <!-- Desktop navigation -->
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4 rtl:space-x-reverse">
-                        <a href="#course-content" class="nav-link text-gray-400 hover:text-white px-3 py-2 rounded-md text-sm font-medium">محتوى الكورس</a>
-                        <a href="#features" class="nav-link text-gray-400 hover:text-white px-3 py-2 rounded-md text-sm font-medium">المميزات</a>
-                        <a href="#course-applications" class="nav-link text-gray-400 hover:text-white px-3 py-2 rounded-md text-sm font-medium">تطبيقات عملية</a>
-                        <a href="#student-work" class="nav-link text-gray-400 hover:text-white px-3 py-2 rounded-md text-sm font-medium">أعمال الطلاب</a>
-                        <a href="#pricing" class="nav-link text-gray-400 hover:text-white px-3 py-2 rounded-md text-sm font-medium">الأسعار</a>
-                        <a href="#testimonials" class="nav-link text-gray-400 hover:text-white px-3 py-2 rounded-md text-sm font-medium">آراء الطلاب</a>
-                        <a href="#about" class="nav-link text-gray-400 hover:text-white px-3 py-2 rounded-md text-sm font-medium">عن إبراهيم</a>
-                        <a href="#social-media" class="nav-link text-gray-400 hover:text-white px-3 py-2 rounded-md text-sm font-medium">تواصل</a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:block">
+                    <div class="flex items-center space-x-8 rtl:space-x-reverse">
+                        <a href="#course-content" class="nav-link">المحتوى</a>
+                        <a href="#features" class="nav-link">المميزات</a>
+                        <a href="#course-applications" class="nav-link">التطبيقات</a>
+                        <a href="#student-work" class="nav-link">أعمال الطلاب</a>
+                        <a href="#pricing" class="nav-link">الأسعار</a>
+                        <a href="#testimonials" class="nav-link">آراء الطلاب</a>
+                        <a href="#about" class="nav-link">عن إبراهيم</a>
                     </div>
                 </div>
+
                 <!-- Mobile menu button -->
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+                <div class="lg:hidden">
+                    <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-white/10 focus:outline-none transition-colors" aria-controls="mobile-menu" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
-                        <i class="fas fa-bars"></i>
+                        <i class="fas fa-bars text-2xl"></i>
                     </button>
                 </div>
             </div>
@@ -327,7 +365,7 @@
     </nav>
     
     <!-- Mobile menu -->
-    <div class="mobile-menu md:hidden" id="mobile-menu">
+    <div class="mobile-menu lg:hidden" id="mobile-menu">
         <button id="mobile-menu-close" class="mobile-menu-close"><i class="fas fa-times"></i></button>
         <a href="#course-content" class="nav-link text-white block px-3 py-2 rounded-md text-base font-medium">محتوى الكورس</a>
         <a href="#features" class="nav-link text-white block px-3 py-2 rounded-md text-base font-medium">المميزات</a>
@@ -340,7 +378,7 @@
     </div>
 
     <!-- Hero Section -->
-    <header id="hero" class="w-full px-4 sm:px-6 lg:px-8 py-8">
+    <header id="hero" class="w-full px-4 sm:px-6 lg:px-8 py-6">
         <div class="hero-slider-container max-w-7xl mx-auto rounded-xl shadow-2xl">
             <div class="hero-slide active">
                 <img src="https://i.postimg.cc/hGhz3Jmy/image.jpg" alt="Hero Banner 1">
@@ -358,19 +396,19 @@
     <!-- Course Content Section -->
     <section id="course-content" class="section-padding animated-section">
         <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-3xl md:text-4xl font-extrabold mb-10 text-[#4ade80]">
-                📚 محتوى الكورس الشامل
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-8 text-[#4ade80]">
+                محتوى الكورس
             </h2>
-            <p class="text-lg leading-relaxed font-normal mb-8 text-gray-400">
-                هنا ستجد قائمة بالدروس التي سيتم تناولها بالتفصيل في كورس "تصميم الصور المصغرة"، لضمان تغطية شاملة لكل جوانب التصميم:
+            <p class="text-lg leading-relaxed font-normal mb-6 text-gray-400">
+                هنا ستجد قائمة بالدروس التي سيتم تناولها بالتفصيل، لضمان تغطية شاملة لكل جوانب التصميم:
             </p>
-            <div class="glass-card p-4 md:p-8">
+            <div class="glass-card p-4 md:p-6">
                 <!-- Level 1 -->
                 <div class="mb-4">
                     <div class="collapsible-header" data-target="level1Content">
                         <span class="font-bold">Level 1</span>
-                        <span class="text-base text-[#4ade80] font-normal ml-2 collapsible-icon-span">
-                            عرض الدروس <i class="fas fa-chevron-down collapsible-icon mr-2"></i>
+                        <span class="text-sm text-[#4ade80] font-normal ml-2 collapsible-icon-span">
+                             <i class="fas fa-chevron-down collapsible-icon"></i>
                         </span>
                     </div>
                     <div id="level1Content" class="collapsible-content text-gray-300">
@@ -409,8 +447,8 @@
                 <div class="mb-4">
                     <div class="collapsible-header" data-target="level2Content">
                         <span class="font-bold">Level 2</span>
-                        <span class="text-base text-[#4ade80] font-normal ml-2 collapsible-icon-span">
-                            عرض الدروس <i class="fas fa-chevron-down collapsible-icon mr-2"></i>
+                        <span class="text-sm text-[#4ade80] font-normal ml-2 collapsible-icon-span">
+                             <i class="fas fa-chevron-down collapsible-icon"></i>
                         </span>
                     </div>
                     <div id="level2Content" class="collapsible-content text-gray-300">
@@ -437,11 +475,11 @@
                     </div>
                 </div>
                 <!-- Level 3 -->
-                <div>
+                <div class="mb-4">
                     <div class="collapsible-header" data-target="level3Content">
                         <span class="font-bold">Level 3</span>
-                        <span class="text-base text-[#4ade80] font-normal ml-2 collapsible-icon-span">
-                            عرض الدروس <i class="fas fa-chevron-down collapsible-icon mr-2"></i>
+                        <span class="text-sm text-[#4ade80] font-normal ml-2 collapsible-icon-span">
+                             <i class="fas fa-chevron-down collapsible-icon"></i>
                         </span>
                     </div>
                     <div id="level3Content" class="collapsible-content text-gray-300">
@@ -458,68 +496,66 @@
                         </ul>
                     </div>
                 </div>
+                 <!-- Level 4 -->
+                 <div>
+                    <div class="collapsible-header" data-target="level4Content">
+                        <span class="font-bold">Level 4</span>
+                        <span class="text-sm text-[#4ade80] font-normal ml-2 collapsible-icon-span">
+                             <i class="fas fa-chevron-down collapsible-icon"></i>
+                        </span>
+                    </div>
+                    <div id="level4Content" class="collapsible-content text-gray-300">
+                        <ul class="space-y-3 text-base pr-4 font-normal text-right">
+                            <li class="flex items-center"><span>1- الجزء الأول: ما هو التكوين؟ وازاي تستخدمه صح في تصميمك؟</span></li>
+                            <li class="flex items-center"><span>2- الجزء التاني:أشهر وأهم قواعد التكوين اللي لازم تعرفها قبل ما تبدأ أي تصميم</span></li>
+                            <li class="flex items-center"><span>3- ثمنيل محترفين | ازاي تذاكر صح ستايل MrBeast</span></li>
+                            <li class="flex items-center"><span>4- ترتيب العناصر جوه تصميم| تطبيق عملي MrBeast</span></li>
+                            <li class="flex items-center"><span>5- احتراف التنفيذ – خلي تصميمك شبه المحترفين | تطبيق عملي MrBeast</span></li>
+                            <li class="flex items-center"><span>6- احترف التصميم | تطبيق عملي MrBeast</span></li>
+                            <li class="flex items-center"><span>7- ازاي تقفل تصميم بشكل احترافي | تطبيق عملي | MrBeast Style</span></li>
+                            <li class="flex items-center"><span>8- ازاي تعمل ثمنيل زي قناه اقتصاد كوكب</span></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
     
     <!-- Features Section -->
     <section id="features" class="section-padding bg-[#101012] animated-section">
-        <div class="max-w-6xl mx-auto text-center">
-            <h2 class="text-3xl md:text-4xl font-extrabold mb-12 text-[#4ade80]">
-                المميزات اللي هتفرق معاك في الكورس
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-8 text-[#4ade80]">
+                مميزات الكورس
             </h2>
-            <p class="text-lg leading-relaxed font-normal mb-10 max-w-2xl mx-auto text-gray-400">
-                في الكورس ده مش هتتعلم أدوات وخلاص، لأ، أنت هتشتغل بإيدك على شغل حقيقي، وهتتعلم حاجات فعلاً بتفرق في أي تصميم احترافي، منها:
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-right">
-                <div class="glass-card p-6 md:p-8 flex flex-col items-end">
-                    <div class="text-blue-400 text-5xl mb-4">
-                        <i class="fas fa-comment-dots"></i>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-right">
+                <div class="glass-card p-6 flex flex-col items-end">
+                    <div class="text-blue-400 text-4xl mb-3">
+                        <i class="fas fa-video"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">فيديوهات مسجلة ودعم مدى الحياة</h3>
-                    <p class="text-gray-400 font-normal">من الحاجات اللي بتميز الكورس بتاعي إنه مسجل فيديوهات كاملة تقدر تتابعها براحتك على تليجرام، وبتفضل معاك مدى الحياة، يعني حتى لو مشغول أو حصل أي ظرف، تقدر توقف وترجع تكمل في أي وقت.</p>
+                    <h3 class="text-lg font-bold mb-2">فيديوهات مسجلة ودعم مدى الحياة</h3>
+                    <p class="text-gray-400 font-normal text-sm leading-relaxed">من الحاجات اللي بتميز الكورس بتاعي إنه مسجل فيديوهات كاملة تقدر تتابعها براحتك على تليجرام، وبتفضل معاك مدى الحياة، يعني حتى لو مشغول أو حصل أي ظرف، تقدر توقف وترجع تكمل في أي وقت.</p>
                 </div>
-                <div class="glass-card p-6 md:p-8 flex flex-col items-end">
-                    <div class="text-[#4ade80] text-5xl mb-4">
-                        <i class="fas fa-camera-retro"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">شرح تفصيلي لفلتر Camera Raw</h3>
-                    <p class="text-gray-400 font-normal">هتتعلم إزاي تستخدم الكاميرا رو باحتراف، وتحوّل أي صورة لمود مختلف تماماً يخدم فكرتك ويشد العين.</p>
-                </div>
-                <div class="glass-card p-6 md:p-8 flex flex-col items-end">
-                    <div class="text-teal-400 text-5xl mb-4">
-                        <i class="fas fa-magic"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">ريتاتش احترافي زي الإعلانات</h3>
-                    <p class="text-gray-400 font-normal">هتتعلم خطوات الريتاتش اللي بتتشاف في الإعلانات الكبيرة، سواء للبشرة أو الملابس أو الإضاءة، علشان التصميم يطلع نضيف ومتقن.</p>
-                </div>
-                <div class="glass-card p-6 md:p-8 flex flex-col items-end">
-                    <div class="text-lime-400 text-5xl mb-4">
-                        <i class="fas fa-layer-group"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">توظيف العناصر بشكل احترافي</h3>
-                    <p class="text-gray-400 font-normal">إزاي توظف الأشكال والـ Icons والـ Text علشان توصل الرسالة المطلوبة من التصميم بشكل واضح وبسيط.</p>
-                </div>
-                <div class="glass-card p-6 md:p-8 flex flex-col items-end">
-                    <div class="text-emerald-400 text-5xl mb-4">
-                        <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">تطبيقات عملية متنوعة</h3>
-                    <p class="text-gray-400 font-normal">كل ده مش كلام بس، هتشتغل على تطبيقات حقيقية في مجالات مختلفة زي: تصميم لمحتوى رياضي، محتوى تعليمي، مدونات Vlog، ومشاريع كاملة من الفكرة للتنفيذ.</p>
-                </div>
-                <div class="glass-card p-6 md:p-8 flex flex-col items-end">
-                    <div class="text-blue-400 text-5xl mb-4">
+                <div class="glass-card p-6 flex flex-col items-end">
+                    <div class="text-green-400 text-4xl mb-3">
                         <i class="fas fa-users"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">جروب خاص للمناقشة والتطوير</h3>
-                    <p class="text-gray-400 font-normal">هتكون مع ناس بتحب التصميم زيك، بنعمل تحديات مع بعض علشان نطوّر مستوانا ونحفّز بعض.</p>
+                    <h3 class="text-lg font-bold mb-2">جروب خاص للمناقشة والتطوير</h3>
+                    <p class="text-gray-400 font-normal text-sm leading-relaxed">هتكون مع ناس بتحب التصميم زيك، بنعمل تحديات مع بعض علشان نطوّر مستوانا ونحفّز بعض.</p>
                 </div>
-                <div class="glass-card p-6 md:p-8 flex flex-col items-end">
-                    <div class="text-yellow-400 text-5xl mb-4">
+                <div class="glass-card p-6 flex flex-col items-end">
+                    <div class="text-purple-400 text-4xl mb-3">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">تطبيقات عملية متنوعة</h3>
+                    <p class="text-gray-400 font-normal text-sm leading-relaxed">كل ده مش كلام بس، هتشتغل على تطبيقات حقيقية في مجالات مختلفة زي: تصميم لمحتوى رياضي، محتوى تعليمي، مدونات Vlog، ومشاريع كاملة من الفكرة للتنفيذ.</p>
+                </div>
+                <div class="glass-card p-6 flex flex-col items-end">
+                    <div class="text-yellow-400 text-4xl mb-3">
                         <i class="fas fa-sync-alt"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">تحديثات مستمرة للكورس</h3>
-                    <p class="text-gray-400 font-normal">الكورس دايمًا في تحديثات علشان نواكب السوق، خصوصًا إن الفترات دي بيحصل تغييرات وتقنيات جديدة لازم نعرفها مع بعض.</p>
+                    <h3 class="text-lg font-bold mb-2">تحديثات مستمرة للكورس</h3>
+                    <p class="text-gray-400 font-normal text-sm leading-relaxed">الكورس دايمًا في تحديثات علشان نواكب السوق، خصوصًا إن الفترات دي بيحصل تغييرات وتقنيات جديدة لازم نعرفها مع بعض.</p>
                 </div>
             </div>
         </div>
@@ -528,73 +564,57 @@
     <!-- Practical Applications Section -->
     <section id="course-applications" class="section-padding animated-section">
         <div class="max-w-6xl mx-auto text-center">
-            <h2 class="text-3xl md:text-4xl font-extrabold mb-12 text-[#4ade80]">
-                من الفكرة للتصميم – تطبيقات عملية من الكورس
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-8 text-[#4ade80]">
+                من الفكرة للتصميم – تطبيقات عملية
             </h2>
-            <p class="text-lg leading-relaxed font-normal mb-10 max-w-2xl mx-auto text-gray-400">
-                شاهد بعض التطبيقات العملية التي ستتعلمها خطوة بخطوة في الكورس، لترى كيف تتحول الأفكار إلى تصاميم احترافية:
-            </p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- All images for this section -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/HWfN308k/image.jpg" alt="صورة تطبيق عملي جديد 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                    <img src="https://i.postimg.cc/k57tr8Qg/khals.jpg" alt="تطبيق عملي جديد 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
                 </div>
                 <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/wBL8cW0H/image.jpg" alt="صورة تطبيق عملي جديد 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                    <img src="https://i.postimg.cc/52W6Dw3n/Untitled.jpg" alt="تطبيق عملي جديد 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
                 </div>
                 <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/FRTPj35N/image.jpg" alt="صورة تطبيق عملي جديد 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                    <img src="https://i.postimg.cc/q7Zn8qKf/khals.jpg" alt="تطبيق عملي جديد 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
                 </div>
                 <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/kMZsqn71/image.jpg" alt="صورة تطبيق عملي جديد 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                    <img src="https://i.postimg.cc/HWfN308k/image.jpg" alt="صورة تطبيق عملي 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
                 </div>
                 <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/QCqHdXrV/1.jpg" alt="صورة تطبيق عملي 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                    <img src="https://i.postimg.cc/wBL8cW0H/image.jpg" alt="صورة تطبيق عملي 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
                 </div>
                 <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/kXf2rXcp/2.jpg" alt="صورة تطبيق عملي 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                    <img src="https://i.postimg.cc/FRTPj35N/image.jpg" alt="صورة تطبيق عملي 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
                 </div>
                 <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/cLCrdyk4/3.jpg" alt="صورة تطبيق عملي 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                    <img src="https://i.postimg.cc/kMZsqn71/image.jpg" alt="صورة تطبيق عملي 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
                 </div>
                 <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/FH61RWwb/4.jpg" alt="صورة تطبيق عملي 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                    <img src="https://i.postimg.cc/QCqHdXrV/1.jpg" alt="صورة تطبيق عملي 5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
                 </div>
                 <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/bv2r20j7/5.jpg" alt="صورة تطبيق عملي 5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                    <img src="https://i.postimg.cc/kXf2rXcp/2.jpg" alt="صورة تطبيق عملي 6" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
                 </div>
                 <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/pTfds2rk/6.jpg" alt="صورة تطبيق عملي 6" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                    <img src="https://i.postimg.cc/cLCrdyk4/3.jpg" alt="صورة تطبيق عملي 7" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
                 </div>
                 <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/MZYTRKhp/11.jpg" alt="صورة تطبيق عملي 7" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                    <img src="https://i.postimg.cc/FH61RWwb/4.jpg" alt="صورة تطبيق عملي 8" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                </div>
+                 <div class="glass-card aspect-video overflow-hidden group">
+                    <img src="https://i.postimg.cc/bv2r20j7/5.jpg" alt="صورة تطبيق عملي 9" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
                 </div>
                 <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/YqnCnD2c/12.jpg" alt="صورة تطبيق عملي 8" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                    <img src="https://i.postimg.cc/pTfds2rk/6.jpg" alt="صورة تطبيق عملي 10" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                </div>
+                 <div class="glass-card aspect-video overflow-hidden group">
+                    <img src="https://i.postimg.cc/MZYTRKhp/11.jpg" alt="صورة تطبيق عملي 11" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                </div>
+                 <div class="glass-card aspect-video overflow-hidden group">
+                    <img src="https://i.postimg.cc/YqnCnD2c/12.jpg" alt="صورة تطبيق عملي 12" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
                 </div>
                 <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/7L7PLx3D/13.jpg" alt="صورة تطبيق عملي 9" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/rmN8SQZP/14.jpg" alt="صورة تطبيق عملي 10" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/mkZTVC02/7.jpg" alt="صورة تطبيق عملي 11" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/2jTky9Zq/8.jpg" alt="صورة تطبيق عملي 12" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/6539vVrM/9.jpg" alt="صورة تطبيق عملي 13" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/28KCFqTr/10.jpg" alt="صورة تطبيق عملي 14" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/qqwS0YDR/15.jpg" alt="صورة تطبيق عملي 15" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/P5zBvdbH/image.jpg" alt="صورة تطبيق عملي 16" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
+                    <img src="https://i.postimg.cc/7L7PLx3D/13.jpg" alt="صورة تطبيق عملي 13" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 clickable-course-image">
                 </div>
             </div>
         </div>
@@ -603,13 +623,25 @@
     <!-- Student Work Section -->
     <section id="student-work" class="section-padding animated-section bg-[#101012]">
         <div class="max-w-6xl mx-auto text-center">
-            <h2 class="text-3xl md:text-4xl font-extrabold mb-12 text-[#4ade80]">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-8 text-[#4ade80]">
                 أعمال طلابنا
             </h2>
-            <p class="text-lg leading-relaxed font-normal mb-10 max-w-2xl mx-auto text-gray-400">
-                شاهد إبداعات طلابنا الذين بدأوا رحلتهم معنا وحققوا نتائج مذهلة!
-            </p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                 <div class="glass-card aspect-video overflow-hidden group">
+                    <img src="https://i.postimg.cc/T2B59hP6/5816759228310424331.jpg" alt="عمل طالب جديد 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="glass-card aspect-video overflow-hidden group">
+                    <img src="https://i.postimg.cc/9Qh46STn/5782633724573846335.jpg" alt="عمل طالب جديد 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="glass-card aspect-video overflow-hidden group">
+                    <img src="https://i.postimg.cc/d0Qh1y5S/5785128074075638949.jpg" alt="عمل طالب جديد 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="glass-card aspect-video overflow-hidden group">
+                    <img src="https://i.postimg.cc/vTnBjLmW/6017107456821415720-1.jpg" alt="عمل طالب جديد 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
+                <div class="glass-card aspect-video overflow-hidden group">
+                    <img src="https://i.postimg.cc/pXDrJZ4M/5996835211184293704-1.jpg" alt="عمل طالب جديد 5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                </div>
                 <div class="glass-card aspect-video overflow-hidden group">
                     <img src="https://i.postimg.cc/wMqRTKDb/1.jpg" alt="عمل طالب 16" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                 </div>
@@ -643,218 +675,161 @@
                 <div class="glass-card aspect-video overflow-hidden group">
                     <img src="https://i.postimg.cc/zBzf2shr/1.jpg" alt="عمل طالب 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                 </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/QMb87fyn/6.jpg" alt="عمل طالب 5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/pXFPCWSj/7.jpg" alt="عمل طالب 6" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/W1mTR9Tb/10.jpg" alt="عمل طالب 7" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/KYZFmn87/11.jpg" alt="عمل طالب 8" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/XvQWqprR/image.jpg" alt="عمل طالب 9" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/63PNVgLz/13.jpg" alt="عمل طالب 10" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/GtCKN2Xn/5969871217521444122.jpg" alt="عمل طالب 11" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/sx5hk4vT/5949337949541878950.jpg" alt="عمل طالب 12" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/tJdy62SQ/image.jpg" alt="عمل طالب 13" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/HjGcYZrq/2-copy.jpg" alt="عمل طالب 14" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
-                <div class="glass-card aspect-video overflow-hidden group">
-                    <img src="https://i.postimg.cc/qqwS0YDR/image.jpg" alt="عمل طالب 15" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                </div>
             </div>
         </div>
     </section>
 
-    <!-- Student Testimonials Section -->
+    <!-- Student Testimonials Section (Updated) -->
     <section id="testimonials" class="section-padding animated-section">
-        <div class="max-w-6xl mx-auto text-center">
-            <h2 class="text-3xl md:text-4xl font-extrabold mb-12 text-[#4ade80]">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-10 text-[#4ade80]">
                 آراء طلابنا
             </h2>
             <div class="testimonials-grid">
-                <!-- Testimonial 1 -->
-                <div class="glass-card p-6 flex flex-col items-center justify-center text-center">
-                    <div class="flex text-yellow-400 mb-4 text-2xl">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                <!-- Review 1 -->
+                <div class="glass-card p-6 flex flex-col items-start text-right">
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="text-lg italic text-gray-300">
-                        "الحمد لله بعد بحث طويل، أخيرًا لقيت حد يشرح فوتوشوب بطريقة مفهومة وسلسة. أستاذ إبراهيم بيشرح كل حاجة بالتفصيل، ويعلمنا تريكات ناس كتير بتخبيها. شكراً على احترامك ومتابعتك المستمرة. جزاك الله خيرا"
+                    <p class="text-base text-gray-300 leading-relaxed">
+                        "صراحة الأستاذ إبراهيم غير فكرتي تمامًا عن الكورسات أونلاين. كنت خايف منها، وعلشان كنت خايف إني ملقيش حد مهتم بيا. لكن الكورس ده غير كل حاجة في دماغي. لقيت نفسي في جروب فعّال، كل واحد فيه شايف التعلم والتطور أهم حاجة. وما يخليكش تحس إنك لوحدك خالص. مستر إبراهيم مش بيوقف لحظة — أي حاجة بتطلبها ينفذها علطول. الكورس صراحة ممتع أوي، وبيطور معاك طول الوقت. ده أحسن حاجة جربتها في رحلتي التعليمية!"
                     </p>
                 </div>
-                <!-- Testimonial 2 -->
-                <div class="glass-card p-6 flex flex-col items-center justify-center text-center">
-                    <div class="flex text-yellow-400 mb-4 text-2xl">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                <!-- Review 2 -->
+                <div class="glass-card p-6 flex flex-col items-start text-right">
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="text-lg italic text-gray-300">
-                        "صباح الخير مستر ابراهيم. بصراحة، أنا كنت متردد في البداية قبل ما أشترك معاك على وجه الخصوص انك قولت لي انها قناه على تليجرام... لكن بعد ما اشتركت معك وبدأت أتابع الفيديوهات… حقيقي، لازم أقولها لك من قلبي: شغلك محترم جدًا، وشطارتك باينة من أول دقيقة، والمحتوى اللي بتقدمه منظم وواضح وبيعكس إن وراك مجهود وتعب وشغل أيام وفهم حقيقي. انا لي الشرف انى بقيت معاك، وبقيت من متابعيك، وسعيد جدا إن في جيل جديد من المدربين عنده الشغف والجودة بالشكل ده."
+                    <p class="text-base text-gray-300 leading-relaxed">
+                        "والله أنا استمتعت بالحلقة جداً جداً وعلّمتني حاجات جديدة مكنتش أعرفها ومكنتش أعرف بتتعمل إزاي. وبالخصوص الحلقة الأخيرة، ديت التصميم في حته تانية وفنشت التصميم صح."
                     </p>
                 </div>
-                <!-- Testimonial 3 -->
-                <div class="glass-card p-6 flex flex-col items-center justify-center text-center">
-                    <div class="flex text-yellow-400 mb-4 text-2xl">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                <!-- Review 3 -->
+                <div class="glass-card p-6 flex flex-col items-start text-right">
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="text-lg italic text-gray-300">
-                        "ما شاء الله، الكورس منظم وأسلوبك بسيط وجميل. أكتر حاجة عجبتني إنك بتشرح كل طريقة للتنفيذ وبتقول إيه الأفضل وامتى نستخدمها. بالتوفيق دايمًا، وأنصح أي حد يبدأ بالكورس ده فورا."
+                    <p class="text-base text-gray-300 leading-relaxed">
+                        "يا رجاله أنا صراحة في أول مستوى، بس تعلّمت أكتر من اليويتوب اللي قعد عليه أكتر من سنة."
                     </p>
                 </div>
-                <!-- Testimonial 4 -->
-                <div class="glass-card p-6 flex flex-col items-center justify-center text-center">
-                    <div class="flex text-yellow-400 mb-4 text-2xl">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                <!-- Review 4 -->
+                <div class="glass-card p-6 flex flex-col items-start text-right">
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="text-lg italic text-gray-300">
-                        "أنا جربت كورسات قبل كده، بس علطول بحس إن المعلومات إما معقدة أو مش عملي لكن كورس أستاذ إبراهيم فعلامختلف علمي إزاي أفكر كمصمم مش مجرد أحفظ خطواتوده اللي فرق معايا في الشغل. دلوقتي بقيت بعرف أتعامل مع العميل أعرف إزاي أسمع منه واطلع له تصميم يعجبه وكل ده بسبب الاساس الي في مستوي الاول بس ممتن اوي اوي ليك."
+                    <p class="text-base text-gray-300 leading-relaxed">
+                        "الشرح جامد فشخ! لدرجة إن إبراهيم بيرجع يعيد كل نقطة شرحًا، كان إحنا قاعدين قدامه. صراحة، شكراً أوي ليك."
                     </p>
                 </div>
-                <!-- Testimonial 5 -->
-                <div class="glass-card p-6 flex flex-col items-center justify-center text-center">
-                    <div class="flex text-yellow-400 mb-4 text-2xl">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                <!-- Review 5 -->
+                <div class="glass-card p-6 flex flex-col items-start text-right">
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="text-lg italic text-gray-300">
-                        "الكورس ساعدني أرتب دماغي كمصمم. كنت بعرف حاجات من هنا وهنا، بس مكنتش عارف ابدا منين ولا إزاي أتعامل مع عميل. لما أخدت الكورس لقيت نفسي بتعلم كل حاجة بالترتيب من الفكرة لحد تسليم التصميم واللي عجبني أكتر إن في تمارين عملية بتخليك تطبق وتشتغل فعلا. وبعد ما خلصته بدأت أنزل شغل على السوشيال ميديا، وفعلا جالي أول عميل بعدها بأسبوع."
+                    <p class="text-base text-gray-300 leading-relaxed">
+                        "صباح الخير مستر ابراهيم. بصراحة، أنا كنت متردد في البداية قبل ما أشترك معاك على وجه الخصوص انك قولت لي انها قناه على تليجرام... لكن بعد ما اشتركت معك وبدأت أتابع الفيديوهات… حقيقي، لازم أقولها لك من قلبي: شغلك محترم جدًا، وشطارتك باينة من أول دقيقة، والمحتوى اللي بتقدمه منظم وواضح. انا لي الشرف انى بقيت معاك."
                     </p>
                 </div>
-                <!-- Testimonial 6 -->
-                <div class="glass-card p-6 flex flex-col items-center justify-center text-center">
-                    <div class="flex text-yellow-400 mb-4 text-2xl">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                <!-- Review 6 -->
+                <div class="glass-card p-6 flex flex-col items-start text-right">
+                    <div class="flex text-yellow-400 mb-4 text-sm">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p class="text-lg italic text-gray-300">
-                        "أنا من الناس اللي كانت بتخاف نبدا في مجال التصميم علطول حاسس إنه صعب ومعقد ومفيهوش شغل بسهولة بس والله الكورس ده كسر عندي كل الحواجز. اتعلمت الأساسيات والترتيب الصح، وبقيت أعرف أطلع شغل شكله احترافي. دلوقتي بقيت بستقبل رسائل من ناس عايزة تشتغل معايا وده كله بعد الكورس بشهرين بالضبط.تسلم اوي ياهيما انا اتفتحلي باب ماكنتش متخيله."
-                    </p>
-                </div>
-                <!-- Testimonial 7 -->
-                <div class="glass-card p-6 flex flex-col items-center justify-center text-center">
-                    <div class="flex text-yellow-400 mb-4 text-2xl">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-lg italic text-gray-300">
-                        "احسن حاجة في الكورس إنك بتحس إن اللي قدامك مش مدرس لا ده أخ كبير فاهم المجال وبيساعدك تطلع أفضل نسخة من نفسك أنا اتعلمت أشتغل بسرعة أنظم شغلي وأفكر إزاي اخلي التصميم يبيع. مهم من ده كله بقيت واثق من شغلي وقدرت أكلم عملاء وأنا عارف أنا بعمل إيه، مش مجرد بخبط تصميمات عشوائية. شكراً من قلبي بجد."
-                    </p>
-                </div>
-                <!-- Testimonial 8 -->
-                <div class="glass-card p-6 flex flex-col items-center justify-center text-center">
-                    <div class="flex text-yellow-400 mb-4 text-2xl">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-lg italic text-gray-300">
-                        "محتوى الكورس شامل كل المعلومات اللي تخليك من الصفر إلى الأحترافية في مدة صغيرة جدا وده زائد المتابعة مع مستر إبراهيم بخيت اللي كان بيجاوب على كل سؤال خلال فترة الكورس."
+                    <p class="text-base text-gray-300 leading-relaxed">
+                        "احسن حاجة في الكورس إنك بتحس إن اللي قدامك مش مدرس لا ده أخ كبير فاهم المجال وبيساعدك تطلع أفضل نسخة من نفسك. أنا اتعلمت أشتغل بسرعة أنظم شغلي وأفكر إزاي اخلي التصميم يبيع. بقيت واثق من شغلي وقدرت أكلم عملاء وأنا عارف أنا بعمل إيه. شكراً من قلبي بجد."
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing Section -->
+    <!-- Pricing Section (Redesigned) -->
     <section id="pricing" class="section-padding animated-section">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-3xl md:text-4xl font-extrabold mb-10 text-[#4ade80]">
-                💰 خطط الأسعار
-            </h2>
-            <p class="text-lg leading-relaxed font-normal mb-8 text-gray-400">
-                استثمر في نفسك مرة واحدة فقط واحصل على كل ما تحتاجه لتصبح مصمم محترف.
-            </p>
-            <div class="glass-card p-8 md:p-12 text-right">
-                <h3 class="text-3xl md:text-4xl font-bold text-[#4ade80] mb-2">الكورس الشامل</h3>
-                <p class="text-gray-400 text-lg font-normal mb-6">احصل على كل محتوى الكورس، التحديثات المستقبلية، والمتابعة الشخصية.</p>
-                <div class="mb-8 flex items-end justify-center md:justify-end gap-2">
-                    <span class="text-4xl md:text-6xl font-extrabold text-white">2000 EGP</span>
-                    <span class="text-lg md:text-2xl text-gray-500 font-normal line-through">4000 EGP</span>
+        <div class="max-w-4xl mx-auto">
+            <!-- Pricing Card Container -->
+            <div class="glass-card pricing-card relative p-8 md:p-12 text-center flex flex-col items-center">
+                
+                <!-- Urgency Ribbon -->
+                <div class="absolute top-0 right-0 left-0 flex justify-center">
+                    <span class="bg-red-600/20 text-red-400 border border-red-600/30 text-sm font-bold px-4 py-1 rounded-b-lg shadow-lg">
+                        🔥 العرض ساري لفترة محدودة
+                    </span>
                 </div>
-                <ul class="space-y-4 text-white font-normal mb-8">
-                    <li class="flex items-center text-lg">
-                        <i class="fas fa-check-circle text-[#4ade80] ml-2"></i>
-                        <span class="font-bold ml-1">اشتراك مدى الحياة</span>
-                        <span class="text-gray-400">مع كل التحديثات والإضافات الجديدة من غير أي رسوم إضافية.</span>
-                    </li>
-                    <li class="flex items-center text-lg">
-                        <i class="fas fa-check-circle text-[#4ade80] ml-2"></i>
-                        <span class="font-bold ml-1">الوصول لجميع الملحقات</span>
-                        <span class="text-gray-400">كل الملفات، الخطوط، والأدوات المستخدمة في الكورس.</span>
-                    </li>
-                    <li class="flex items-center text-lg">
-                        <i class="fas fa-check-circle text-[#4ade80] ml-2"></i>
-                        <span class="font-bold ml-1">دعم شخصي مني 💬</span>
-                        <span class="text-gray-400">تقدر تسألني في أي وقت وهرد عليك علشان أساعدك تحل مشاكلك وتطور شغلك.</span>
-                    </li>
-                </ul>
-                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                    <button class="w-full sm:w-auto px-8 py-4 rounded-full text-white font-bold bg-[#4ade80] hover:bg-[#22c55e] transition-colors" onclick="openPaymentModal('vodafone')">
-                        احجز الآن عبر فودافون كاش
+
+                <h2 class="text-4xl md:text-5xl font-black text-[#4ade80] mb-2 mt-6">
+                    الكورس الشامل
+                </h2>
+                <p class="text-gray-300 text-base md:text-lg font-light mb-8 max-w-lg mx-auto">
+                    احصل على كل محتوى الكورس، التحديثات المستقبلية، والمتابعة الشخصية.
+                </p>
+                
+                <!-- Price Display -->
+                <div class="flex flex-col items-center justify-center mb-6 relative">
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-7xl md:text-8xl font-black text-white tracking-tighter drop-shadow-lg">2000</span>
+                        <div class="flex flex-col items-start">
+                            <span class="text-xl md:text-2xl text-[#4ade80] font-bold">EGP</span>
+                            <span class="text-lg text-gray-500 line-through font-medium">4000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Online Note -->
+                <div class="flex items-center justify-center gap-2 bg-white/5 px-4 py-2 rounded-full mb-8 border border-white/10">
+                    <i class="fas fa-unlock text-[#4ade80]"></i>
+                    <span class="text-gray-300 text-sm font-medium">الكورس أونلاين مسجل فقط (متاح لك في أي وقت)</span>
+                </div>
+
+                <!-- Features Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mb-10 text-white">
+                    <div class="flex items-center justify-center md:justify-start gap-3 bg-white/5 p-3 rounded-lg border border-white/5">
+                        <i class="fas fa-check-circle text-[#4ade80] text-xl"></i>
+                        <span class="font-bold text-sm">اشتراك مدى الحياة</span>
+                    </div>
+                    <div class="flex items-center justify-center md:justify-start gap-3 bg-white/5 p-3 rounded-lg border border-white/5">
+                        <i class="fas fa-check-circle text-[#4ade80] text-xl"></i>
+                        <span class="font-bold text-sm">الوصول لكل الملحقات</span>
+                    </div>
+                    <div class="flex items-center justify-center md:justify-start gap-3 bg-white/5 p-3 rounded-lg border border-white/5">
+                        <i class="fas fa-check-circle text-[#4ade80] text-xl"></i>
+                        <span class="font-bold text-sm">دعم شخصي مني</span>
+                    </div>
+                </div>
+
+                <!-- Payment Buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
+                    <button onclick="openPaymentModal('vodafone')" class="bg-[#25d366] hover:bg-[#1da851] text-white py-4 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 group">
+                        <span>فودافون كاش</span>
                     </button>
-                    <button class="w-full sm:w-auto px-8 py-4 rounded-full text-white font-bold bg-[#4ade80] hover:bg-[#22c55e] transition-colors" onclick="openPaymentModal('paypal')">
-                        الدفع عبر PayPal
+                    
+                    <button onclick="openPaymentModal('paypal')" class="bg-[#0070ba] hover:bg-[#005ea6] text-white py-4 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 group">
+                        <i class="fab fa-paypal text-xl"></i>
+                        <span>PayPal</span>
                     </button>
-                    <button class="w-full sm:w-auto px-8 py-4 rounded-full text-white font-bold bg-[#4ade80] hover:bg-[#22c55e] transition-colors" onclick="openPaymentModal('binance')">
-                        الدفع عبر Binance
+                    
+                    <button onclick="openPaymentModal('binance')" class="bg-[#1d4ed8] hover:bg-[#1e40af] text-white py-4 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 group">
+                        <span class="text-yellow-400 text-lg font-black">🔶</span>
+                        <span>Binance</span>
                     </button>
                 </div>
+
             </div>
         </div>
     </section>
 
     <!-- About Section -->
     <section id="about" class="section-padding bg-[#101012] animated-section">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-8">
             <div class="md:w-1/3 flex justify-center flex-col items-center">
-                <img src="https://i.postimg.cc/zXmLwcfx/image.jpg" alt="صورة إبراهيم بخيت" class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-full shadow-lg border-4 border-[#4ade80] transform transition-transform duration-500 hover:scale-105 mb-4">
+                <img src="https://i.postimg.cc/zXmLwcfx/image.jpg" alt="صورة إبراهيم بخيت" class="w-48 h-48 md:w-64 md:h-64 object-cover rounded-full shadow-lg border-4 border-[#4ade80] transform transition-transform duration-500 hover:scale-105 mb-4">
             </div>
             <div class="md:w-2/3 text-center md:text-right">
-                <h2 class="text-3xl md:text-4xl font-extrabold mb-6 text-[#4ade80]">
-                    عن إبراهيم بخيت وكورس الصور المصغرة
+                <h2 class="text-2xl md:text-3xl font-extrabold mb-4 text-[#4ade80]">
+                    عن إبراهيم بخيت
                 </h2>
                 <p class="text-lg leading-relaxed font-normal text-gray-400">
-                    أنا <span class="font-bold text-[#4ade80]">إبراهيم بخيت</span>، مصمم جرافيك بخبرة تزيد عن 6 سنوات في مجال تصميم الصور المصغرة. جئت لأنقل لك كل خبرتي العملية في كورس واحد شامل، يضع بين يديك أدوات وأسرار احتراف التصميم لتمكينك من صناعة صور مصغرة فريدة وجذابة.
+                    أنا <span class="font-bold text-[#4ade80]">إبراهيم بخيت</span>، مصمم جرافيك بخبرة تزيد عن 6 سنوات في مجال تصميم الصور المصغرة. جئت لأنقل لك كل خبرتي العملية في كورس واحد، يضع بين يديك أدوات وأسرار احتراف التصميم.
                 </p>
             </div>
         </div>
@@ -862,33 +837,21 @@
     
     <!-- Social Media & Contact Section -->
     <section id="social-media" class="section-padding bg-[#0c0c0e] animated-section">
-        <div class="max-w-4xl mx-auto py-10 text-center">
-            <h2 class="text-3xl md:text-4xl font-extrabold mb-8 text-[#4ade80]">تابعني وتواصل معي</h2>
-            <p class="text-lg md:text-xl font-normal mb-10 text-gray-400">لا تفوت التحديثات والنصائح القيمة، وكن جزءًا من مجتمع إبراهيم بخيت!</p>
-            <div class="flex justify-center space-x-6 rtl:space-x-reverse mb-12">
-                <a href="https://www.instagram.com/ibrahem_bakheet/" target="_blank" rel="noopener noreferrer" class="social-icon text-white hover:text-pink-400 text-4xl transform hover:scale-110 transition-transform">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://www.facebook.com/hema.pro.161/" target="_blank" rel="noopener noreferrer" class="social-icon text-white hover:text-blue-400 text-4xl transform hover:scale-110 transition-transform">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/ibrahem-bakheet-%E2%9C%AA-889920217/" target="_blank" rel="noopener noreferrer" class="social-icon text-white hover:text-blue-200 text-4xl transform hover:scale-110 transition-transform">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="https://www.youtube.com/@Ibrahem_Bakheet" target="_blank" rel="noopener noreferrer" class="social-icon text-white hover:text-red-600 text-4xl transform hover:scale-110 transition-transform">
-                    <i class="fab fa-youtube"></i>
-                </a>
-                <a href="https://api.whatsapp.com/send?phone=201025199409&text=" target="_blank" rel="noopener noreferrer" class="social-icon text-white hover:text-green-500 text-4xl transform hover:scale-110 transition-transform">
-                    <i class="fab fa-whatsapp"></i>
-                </a>
+        <div class="max-w-4xl mx-auto py-6 text-center">
+            <h2 class="text-2xl md:text-3xl font-extrabold mb-6 text-[#4ade80]">تواصل معي</h2>
+            <div class="flex justify-center space-x-6 rtl:space-x-reverse mb-8">
+                <a href="https://www.instagram.com/ibrahem_bakheet/" target="_blank" class="text-white hover:text-pink-400 text-3xl transition-transform hover:scale-110"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/hema.pro.161/" target="_blank" class="text-white hover:text-blue-400 text-3xl transition-transform hover:scale-110"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.linkedin.com/in/ibrahem-bakheet-%E2%9C%AA-889920217/" target="_blank" class="text-white hover:text-blue-200 text-3xl transition-transform hover:scale-110"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.youtube.com/@Ibrahem_Bakheet" target="_blank" class="text-white hover:text-red-600 text-3xl transition-transform hover:scale-110"><i class="fab fa-youtube"></i></a>
+                <a href="https://api.whatsapp.com/send?phone=201025199409&text=" target="_blank" class="text-white hover:text-green-500 text-3xl transition-transform hover:scale-110"><i class="fab fa-whatsapp"></i></a>
             </div>
             <!-- Contact Form -->
-            <div class="glass-card p-8 md:p-12 text-right">
-                <h3 class="text-2xl md:text-3xl font-bold mb-6 text-white text-center">أرسل استفسارك مباشرة</h3>
-                <p class="text-gray-400 text-center font-normal mb-8">اكتب رسالتك وسنرسلها مباشرة إلى واتساب.</p>
+            <div class="glass-card p-6 md:p-10 text-right">
+                <h3 class="text-xl md:text-2xl font-bold mb-4 text-white text-center">أرسل استفسارك</h3>
                 <div class="space-y-4">
-                    <textarea id="contactMessage" class="form-input w-full h-32 resize-none font-normal" placeholder="اكتب رسالتك هنا..." aria-label="اكتب رسالتك هنا"></textarea>
-                    <button id="sendWhatsappBtn" class="w-full px-8 py-4 rounded-full text-white font-bold bg-[#4ade80] hover:bg-[#22c55e] transition-colors">
+                    <textarea id="contactMessage" class="form-input w-full h-24 resize-none font-normal" placeholder="اكتب رسالتك هنا..."></textarea>
+                    <button id="sendWhatsappBtn" class="w-full px-6 py-3 rounded-full text-white font-bold bg-[#4ade80] hover:bg-[#22c55e] transition-colors">
                         أرسل عبر واتساب <i class="fab fa-whatsapp ml-2"></i>
                     </button>
                 </div>
@@ -897,7 +860,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-[#101012] text-gray-500 py-8 text-center">
+    <footer class="bg-[#101012] text-gray-500 py-6 text-center text-sm">
         <div class="max-w-6xl mx-auto">
             <p class="font-normal">&copy; 2024 كورس إبراهيم بخيت. جميع الحقوق محفوظة.</p>
         </div>
@@ -905,8 +868,8 @@
 
     <!-- Image Modal -->
     <div id="imageModal" class="modal-overlay">
-        <div class="modal-content relative max-w-full max-h-full p-4">
-            <img id="modalImage" src="" alt="Full-size image" class="rounded-xl shadow-2xl max-w-full max-h-full object-contain">
+        <div class="modal-content relative max-w-full max-h-full p-4 flex justify-center items-center">
+            <img id="modalImage" src="" alt="Full-size image" class="rounded-xl shadow-2xl max-w-full max-h-[90vh] object-contain">
             <button id="closeImageModal" class="modal-close-button" aria-label="إغلاق"><i class="fas fa-times"></i></button>
         </div>
     </div>
@@ -957,12 +920,10 @@
                     content.classList.remove('expanded');
                     icon.classList.remove('fa-chevron-up');
                     icon.classList.add('fa-chevron-down');
-                    iconSpan.innerHTML = 'عرض الدروس <i class="fas fa-chevron-down collapsible-icon mr-2"></i>';
                 } else {
                     content.classList.add('expanded');
                     icon.classList.remove('fa-chevron-down');
                     icon.classList.add('fa-chevron-up');
-                    iconSpan.innerHTML = 'إخفاء الدروس <i class="fas fa-chevron-up collapsible-icon mr-2"></i>';
                 }
             });
         });
@@ -1001,7 +962,7 @@
             let message = "";
             let whatsappText = "";
             if (method === 'vodafone') {
-                message = "علشان تحجز مكانك بسعر الخصم، حوّل 2000 جنيه على فودافون كاش 01025199409 وبعد التحويل ابعتلي صورة الإيصال على واتساب عشان أفعّل اشتراكك فورًا أي استفسار، أنا معاك";
+                message = "علشان تحجز مكانك بسعر الخصم، حوّل 2000 جنيه على فودافون كاش 01025199409 وبعد التحويل ابعتلي صورة الإيصال على واتساب عشان أفعّل اشتراكك فورًا.";
                 whatsappText = "مرحباً إبراهيم، أود الاستفسار عن كورس الصور المصغرة والدفع عبر فودافون كاش.";
             } else if (method === 'paypal') {
                 message = "لو محتاج تدفع باي بال تواصل معي على واتساب.";
@@ -1038,12 +999,8 @@
         // Close modals with Esc key
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
-                if (imageModal.classList.contains('active')) {
-                    imageModal.classList.remove('active');
-                }
-                if (paymentModal.classList.contains('active')) {
-                    paymentModal.classList.remove('active');
-                }
+                imageModal.classList.remove('active');
+                paymentModal.classList.remove('active');
             }
         });
 
@@ -1092,4 +1049,3 @@
     </script>
 </body>
 </html>
-
