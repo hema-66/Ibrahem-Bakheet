@@ -1,210 +1,170 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IBRAHEM BAKHEET - Course</title>
+    <title>IBRAHEM BAKHEET | AI & Design Master</title>
     
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Swiper CSS (للسلايدر) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand': '#39ff14',
+                        'dark': '#0a0a0a',
+                        'surface': '#121212',
+                    },
+                    fontFamily: {
+                        'cairo': ['Cairo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        /* الخطوط */
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cairo:wght@300;400;600;700;900&display=swap');
-        
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: #0c0c0e;
-            color: #e5e7eb;
+            background-color: #050505;
+            color: #ffffff;
             overflow-x: hidden;
         }
 
-        /* تصميم الكروت الزجاجية مع الكيرف */
         .glass-card {
-            background-color: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px; /* كيرف واضح */
-            backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(57, 255, 20, 0.1);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
         }
-        
+
         .glass-card:hover {
-            background-color: rgba(255, 255, 255, 0.06);
-            transform: translateY(-8px); /* حركة ناعمة للأعلى */
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border-color: rgba(74, 222, 128, 0.3);
+            border-color: rgba(57, 255, 20, 0.4);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.1);
+            transform: translateY(-5px);
         }
 
-        /* أنميشن الظهور عند السكرول */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        .text-neon {
+            color: #39ff14;
+            text-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
         }
 
-        /* الهيدر */
-        .nav-link {
-            position: relative;
-            color: #d1d5db;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            right: 0;
-            background-color: #4ade80;
-            transition: width 0.3s ease;
-            border-radius: 2px;
-        }
-        .nav-link:hover { color: #4ade80; }
-        .nav-link:hover::after { width: 100%; }
-
-        /* Swiper Slider Customization */
-        .swiper-pagination-bullet {
-            background: #fff;
-            opacity: 0.5;
-        }
-        .swiper-pagination-bullet-active {
-            background: #4ade80;
-            opacity: 1;
+        .hero-bg {
+            background: radial-gradient(circle at 50% 50%, rgba(57, 255, 20, 0.05) 0%, transparent 50%);
         }
 
-        /* Accordion (Collapsible) */
-        .collapsible-header {
-            cursor: pointer;
-            transition: all 0.3s;
-            border-radius: 16px;
-        }
-        .collapsible-header:hover { background-color: rgba(255,255,255,0.05); }
         .collapsible-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease-out;
+            transition: max-height 0.6s ease-out; /* أبطأ قليلاً عشان الليست الطويلة */
         }
-        .collapsible-content.expanded { max-height: 2000px; }
+        /* زيادة الارتفاع عشان يستوعب الدروس الكتيرة */
+        .collapsible-content.expanded { max-height: 3000px; }
 
-        /* Hero Slider Fade */
-        .hero-slider-container {
-            position: relative;
-            height: 500px;
-            border-radius: 0 0 40px 40px; /* كيرف كبير في الأسفل */
-            overflow: hidden;
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(220, 38, 38, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
         }
-        .hero-slide {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
+        .urgent-badge {
+            animation: pulse-red 2s infinite;
         }
-        .hero-slide.active { opacity: 1; }
-        .hero-slide img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(5px);
+        /* تنسيق قائمة الدروس */
+        .lesson-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             display: flex;
-            justify-content: center;
             align-items: center;
-            z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
+            gap: 10px;
         }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-        
-        /* Mobile Menu */
-        .mobile-menu {
-            transform: translateY(-100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .lesson-list li:last-child { border-bottom: none; }
+        .lesson-list li:before {
+            content: '\f04b'; /* Play icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: #39ff14;
+            font-size: 0.8rem;
         }
-        .mobile-menu.active { transform: translateY(0); }
-
     </style>
 </head>
-<body class="antialiased selection:bg-[#4ade80] selection:text-black">
+<body class="selection:bg-brand selection:text-black">
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 bg-[#0c0c0e]/80 backdrop-blur-lg border-b border-white/5 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
-                <a href="#" class="group flex items-center gap-2">
-                    <div class="w-2 h-8 bg-[#4ade80] rounded-full group-hover:h-10 transition-all duration-300"></div>
-                    <span class="font-['Bebas_Neue'] text-3xl md:text-4xl tracking-wide text-white group-hover:text-[#4ade80] transition-colors">
-                        IBRAHEM BAKHEET
-                    </span>
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 top-0 py-4">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="glass-card rounded-full px-8 py-3 flex justify-between items-center bg-black/80">
+                <span class="font-black text-xl tracking-wider text-white">IBRAHEM<span class="text-neon">.DESIGN</span></span>
+                <a href="#pricing" class="bg-brand text-black px-6 py-2 rounded-full font-bold text-sm hover:bg-white transition-colors">
+                    احجز العرض
                 </a>
-
-                <!-- Desktop Menu -->
-                <div class="hidden lg:flex items-center space-x-8 rtl:space-x-reverse">
-                    <a href="#course-content" class="nav-link">المحتوى</a>
-                    <a href="#features" class="nav-link">المميزات</a>
-                    <a href="#course-applications" class="nav-link">التطبيقات</a>
-                    <a href="#student-work" class="nav-link">أعمال الطلاب</a>
-                    <a href="#pricing" class="nav-link">الأسعار</a>
-                    <a href="#testimonials" class="nav-link">الآراء</a>
-                    <a href="#about" class="nav-link">عن إبراهيم</a>
-                </div>
-
-                <!-- Mobile Toggle -->
-                <button id="mobile-btn" class="lg:hidden text-white text-2xl p-2 hover:text-[#4ade80] transition-colors">
-                    <i class="fas fa-bars"></i>
-                </button>
             </div>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="mobile-menu fixed inset-0 bg-[#0c0c0e] z-40 pt-24 px-6 flex flex-col items-center gap-6 text-xl font-bold">
-        <button id="mobile-close" class="absolute top-6 right-6 text-white text-3xl"><i class="fas fa-times"></i></button>
-        <a href="#course-content" class="hover:text-[#4ade80]">المحتوى</a>
-        <a href="#features" class="hover:text-[#4ade80]">المميزات</a>
-        <a href="#pricing" class="hover:text-[#4ade80]">الأسعار</a>
-        <a href="#testimonials" class="hover:text-[#4ade80]">الآراء</a>
-        <a href="#about" class="hover:text-[#4ade80]">تواصل</a>
-    </div>
+    <!-- HERO SECTION -->
+    <header class="hero-bg min-h-screen flex items-center justify-center text-center px-4 pt-20">
+        <div class="max-w-4xl mx-auto space-y-8 relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand/30 bg-brand/5 text-brand text-sm font-bold mb-4">
+                <span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span>
+                الكورس الأقوى لعام 2025
+            </div>
+            
+            <h1 class="text-6xl md:text-8xl font-black leading-tight text-white mb-6">
+                احترف تصميم <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand to-green-600 text-neon">THUMBNAILS</span>
+            </h1>
+            
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                مسارك المختصر لتعلم دمج الصور، الإضاءة، والذكاء الاصطناعي (AI).
+                <br>
+                <span class="text-white font-bold">بدون حشو.. بنعلمك اللي السوق طالبه بس.</span>
+            </p>
+            
+            <div class="pt-8">
+                <a href="#pricing" class="inline-block bg-brand text-black text-xl font-black px-12 py-5 rounded-2xl hover:scale-105 transition-transform shadow-[0_0_30px_rgba(57,255,20,0.3)]">
+                    احصل على خصم نهاية السنة 🔥
+                </a>
+                <div class="mt-4 text-sm text-gray-500">العرض متاح لـ 10 أشخاص فقط</div>
+            </div>
 
-    <!-- Hero Section -->
-    <header class="relative pt-20">
-        <div class="hero-slider-container shadow-2xl">
-            <div class="hero-slide active"><img src="https://i.postimg.cc/hGhz3Jmy/image.jpg" alt="Banner 1"></div>
-            <div class="hero-slide"><img src="https://i.postimg.cc/SxSFysgC/image.jpg" alt="Banner 2"></div>
-            <!-- Gradient Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0c0c0e] via-transparent to-black/40"></div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 border-t border-white/10 pt-8">
+                <div><h3 class="text-3xl font-bold text-white">+500</h3><p class="text-xs text-gray-500">طالب</p></div>
+                <div><h3 class="text-3xl font-bold text-white">4K</h3><p class="text-xs text-gray-500">جودة الشرح</p></div>
+                <div><h3 class="text-3xl font-bold text-white">100%</h3><p class="text-xs text-gray-500">تطبيق عملي</p></div>
+                <div><h3 class="text-3xl font-bold text-white">24/7</h3><p class="text-xs text-gray-500">دعم فني</p></div>
+            </div>
         </div>
     </header>
 
-    <!-- محتوى الكورس -->
-    <section id="course-content" class="py-20 md:py-32 px-4">
-        <div class="max-w-4xl mx-auto reveal">
-            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-[#4ade80]">محتوى الكورس</h2>
-            
-            <div class="space-y-6">
-                <!-- Levels Loop -->
-                <div class="glass-card overflow-hidden">
-                    <div class="collapsible-header p-6 flex justify-between items-center" data-target="level1">
-                        <span class="text-xl font-bold">Level 1</span>
-                        <i class="fas fa-chevron-down text-[#4ade80] transition-transform duration-300"></i>
+    <!-- المنهج (Lessons) -->
+    <section class="py-24 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-white mb-2">محتوى الكورس التفصيلي</h2>
+                <div class="w-20 h-1 bg-brand mx-auto rounded-full"></div>
+            </div>
+
+            <div class="space-y-4">
+                
+                <!-- Level 1 -->
+                <div class="glass-card rounded-xl overflow-hidden">
+                    <div class="p-6 flex justify-between items-center cursor-pointer collapsible-header hover:bg-white/5 transition" data-target="lvl1">
+                        <h3 class="text-xl font-bold text-white">Level 1: التأسيس وفهم القواعد</h3>
+                        <i class="fas fa-plus text-brand text-xl"></i>
                     </div>
-                    <div id="level1" class="collapsible-content bg-black/20">
-                        <ul class="p-8 text-right space-y-4 text-gray-300">
+                    <div id="lvl1" class="collapsible-content bg-black/30">
+                        <ul class="p-6 lesson-list text-gray-300 text-sm md:text-base">
                             <li>درس رقم 1 ليه لازم تتخصص في مجال معين</li>
                             <li>درس رقم 2 تعريف الصور المصغرة وأهميتها</li>
                             <li>درس رقم 3 عناصر التصميم الجرافيك ... الخطوط</li>
@@ -236,13 +196,14 @@
                     </div>
                 </div>
 
-                <div class="glass-card overflow-hidden">
-                    <div class="collapsible-header p-6 flex justify-between items-center" data-target="level2">
-                        <span class="text-xl font-bold">Level 2</span>
-                        <i class="fas fa-chevron-down text-[#4ade80] transition-transform duration-300"></i>
+                <!-- Level 2 -->
+                <div class="glass-card rounded-xl overflow-hidden">
+                    <div class="p-6 flex justify-between items-center cursor-pointer collapsible-header hover:bg-white/5 transition" data-target="lvl2">
+                        <h3 class="text-xl font-bold text-white">Level 2: التقنيات المتقدمة والريلز</h3>
+                        <i class="fas fa-plus text-brand text-xl"></i>
                     </div>
-                    <div id="level2" class="collapsible-content bg-black/20">
-                        <ul class="p-8 text-right space-y-4 text-gray-300">
+                    <div id="lvl2" class="collapsible-content bg-black/30">
+                        <ul class="p-6 lesson-list text-gray-300 text-sm md:text-base">
                             <li>1- إزاي تصمم ثمنيل لريلز</li>
                             <li>2- تطبيق عملي لتصميم ثمنيل ريلز</li>
                             <li>3- ستايل الترند في ثمنيل الريلز</li>
@@ -265,13 +226,14 @@
                     </div>
                 </div>
 
-                <div class="glass-card overflow-hidden">
-                    <div class="collapsible-header p-6 flex justify-between items-center" data-target="level3">
-                        <span class="text-xl font-bold">Level 3</span>
-                        <i class="fas fa-chevron-down text-[#4ade80] transition-transform duration-300"></i>
+                <!-- Level 3 -->
+                <div class="glass-card rounded-xl overflow-hidden">
+                    <div class="p-6 flex justify-between items-center cursor-pointer collapsible-header hover:bg-white/5 transition" data-target="lvl3">
+                        <h3 class="text-xl font-bold text-white">Level 3: التلاعب والخدع السينمائية</h3>
+                        <i class="fas fa-plus text-brand text-xl"></i>
                     </div>
-                    <div id="level3" class="collapsible-content bg-black/20">
-                        <ul class="p-8 text-right space-y-4 text-gray-300">
+                    <div id="lvl3" class="collapsible-content bg-black/30">
+                        <ul class="p-6 lesson-list text-gray-300 text-sm md:text-base">
                             <li>1- غير وضعية الجسم لأي بوز</li>
                             <li>2- غير لبس أي شخص بضغطة زر</li>
                             <li>3- تطبيق عملي: ثمنيل مراجعة مدرسين</li>
@@ -285,13 +247,14 @@
                     </div>
                 </div>
 
-                <div class="glass-card overflow-hidden">
-                    <div class="collapsible-header p-6 flex justify-between items-center" data-target="level4">
-                        <span class="text-xl font-bold">Level 4</span>
-                        <i class="fas fa-chevron-down text-[#4ade80] transition-transform duration-300"></i>
+                <!-- Level 4 -->
+                <div class="glass-card rounded-xl overflow-hidden">
+                    <div class="p-6 flex justify-between items-center cursor-pointer collapsible-header hover:bg-white/5 transition" data-target="lvl4">
+                        <h3 class="text-xl font-bold text-white">Level 4: الاحتراف العالمي (MrBeast)</h3>
+                        <i class="fas fa-plus text-brand text-xl"></i>
                     </div>
-                    <div id="level4" class="collapsible-content bg-black/20">
-                        <ul class="p-8 text-right space-y-4 text-gray-300">
+                    <div id="lvl4" class="collapsible-content bg-black/30">
+                        <ul class="p-6 lesson-list text-gray-300 text-sm md:text-base">
                             <li>1- ما هو التكوين؟</li>
                             <li>2- أشهر وأهم قواعد التكوين</li>
                             <li>3- ثمنيل محترفين | MrBeast Style</li>
@@ -303,391 +266,163 @@
                         </ul>
                     </div>
                 </div>
+
+                <!-- Level 5 (NEW) -->
+                <div class="glass-card rounded-xl overflow-hidden border-brand/50 border-2 shadow-[0_0_20px_rgba(57,255,20,0.1)]">
+                    <div class="p-6 flex justify-between items-center cursor-pointer collapsible-header bg-brand/10 hover:bg-brand/20 transition" data-target="lvl5">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-robot text-brand text-2xl"></i>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Level 5: احتراف الذكاء الاصطناعي (AI)</h3>
+                                <p class="text-xs text-brand font-bold">جديد وحصري 🔥</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-plus text-brand text-xl"></i>
+                    </div>
+                    <div id="lvl5" class="collapsible-content bg-black/30">
+                        <ul class="p-6 lesson-list text-gray-300 text-sm md:text-base">
+                            <li>1- أهم مواقع الـ AI المجانية والمدفوعة التي يحتاجها المصمم</li>
+                            <li>2- أسرار كتابة البرومبت (Prompts) لاستخراج نتائج دقيقة</li>
+                            <li>3- كيف تولد تصميم كامل بالذكاء الاصطناعي من الصفر</li>
+                            <li>4- كيفية اختيار وتوليد الصورة المناسبة لفكرة الفيديو (Best Selection)</li>
+                            <li>5- حل مشاكل تشوهات الذكاء الاصطناعي في الصور</li>
+                            <li>6- دمج الـ AI داخل ورك فلو الفوتوشوب</li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- المميزات -->
-    <section id="features" class="py-20 px-4 bg-[#0f0f11] rounded-t-[60px]">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#4ade80] reveal">المميزات</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass-card p-8 text-center reveal" style="transition-delay: 100ms;">
-                    <div class="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-400 text-4xl">
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">فيديوهات مسجلة مدى الحياة</h3>
-                    <p class="text-gray-400">تقدر تتابعها براحتك على تليجرام في أي وقت.</p>
-                </div>
-                <div class="glass-card p-8 text-center reveal" style="transition-delay: 200ms;">
-                    <div class="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 text-green-400 text-4xl">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">جروب للمناقشة</h3>
-                    <p class="text-gray-400">مجتمع للمصممين للتحديات والتطوير المستمر.</p>
-                </div>
-                <div class="glass-card p-8 text-center reveal" style="transition-delay: 300ms;">
-                    <div class="w-20 h-20 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto mb-6 text-purple-400 text-4xl">
-                        <i class="fas fa-layer-group"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">تطبيقات عملية</h3>
-                    <p class="text-gray-400">تطبيقات حقيقية في مجالات مختلفة من الفكرة للتنفيذ.</p>
-                </div>
-                <div class="glass-card p-8 text-center reveal" style="transition-delay: 400ms;">
-                    <div class="w-20 h-20 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-6 text-yellow-400 text-4xl">
-                        <i class="fas fa-sync-alt"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">تحديثات مستمرة</h3>
-                    <p class="text-gray-400">مواكبة لكل جديد في السوق وتقنيات التصميم.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- التطبيقات العملية -->
-    <section id="course-applications" class="py-20 px-4">
-        <div class="max-w-7xl mx-auto text-center">
-            <h2 class="text-4xl font-bold mb-16 text-[#4ade80] reveal">تطبيقات عملية</h2>
-            <!-- تم استرجاع جميع الصور هنا -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 reveal">
-                <!-- New Images -->
-                <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/k57tr8Qg/khals.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/52W6Dw3n/Untitled.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/q7Zn8qKf/khals.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                
-                <!-- Restored Images -->
-                <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/HWfN308k/image.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/wBL8cW0H/image.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/FRTPj35N/image.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/kMZsqn71/image.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/QCqHdXrV/1.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/kXf2rXcp/2.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                 <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/cLCrdyk4/3.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/FH61RWwb/4.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                 <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/bv2r20j7/5.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/pTfds2rk/6.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                 <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/MZYTRKhp/11.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                 <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/YqnCnD2c/12.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-                <div class="glass-card overflow-hidden rounded-3xl cursor-pointer group">
-                    <img src="https://i.postimg.cc/7L7PLx3D/13.jpg" class="w-full h-auto group-hover:scale-110 transition-transform duration-500 clickable-image">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- أعمال الطلاب (3 أعمدة) -->
-    <section id="student-work" class="py-20 px-4 bg-[#0f0f11] rounded-[60px]">
-        <div class="max-w-7xl mx-auto text-center">
-            <h2 class="text-4xl font-bold mb-16 text-[#4ade80] reveal">أعمال الطلاب</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 reveal">
-                <!-- Student Work Loop -->
-                <div class="glass-card overflow-hidden rounded-3xl group"><img src="https://i.postimg.cc/T2B59hP6/5816759228310424331.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 clickable-image"></div>
-                <div class="glass-card overflow-hidden rounded-3xl group"><img src="https://i.postimg.cc/9Qh46STn/5782633724573846335.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 clickable-image"></div>
-                <div class="glass-card overflow-hidden rounded-3xl group"><img src="https://i.postimg.cc/d0Qh1y5S/5785128074075638949.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 clickable-image"></div>
-                <div class="glass-card overflow-hidden rounded-3xl group"><img src="https://i.postimg.cc/vTnBjLmW/6017107456821415720-1.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 clickable-image"></div>
-                <div class="glass-card overflow-hidden rounded-3xl group"><img src="https://i.postimg.cc/pXDrJZ4M/5996835211184293704-1.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 clickable-image"></div>
-                <div class="glass-card overflow-hidden rounded-3xl group"><img src="https://i.postimg.cc/wMqRTKDb/1.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 clickable-image"></div>
-                <div class="glass-card overflow-hidden rounded-3xl group"><img src="https://i.postimg.cc/nzZC08Sc/2.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 clickable-image"></div>
-                <div class="glass-card overflow-hidden rounded-3xl group"><img src="https://i.postimg.cc/dtzQ5PLP/3.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 clickable-image"></div>
-                <div class="glass-card overflow-hidden rounded-3xl group"><img src="https://i.postimg.cc/B6kZkdMK/6.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 clickable-image"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section id="pricing" class="py-20 px-4">
-        <div class="max-w-3xl mx-auto reveal">
-            <div class="glass-card p-12 text-center relative border-t border-[#4ade80]/50">
-                <div class="absolute top-0 left-1/2 -translate-x-1/2 bg-red-600 text-white text-sm font-bold px-6 py-1 rounded-b-xl shadow-lg">
-                    🔥 عرض لفترة محدودة
-                </div>
-                
-                <h2 class="text-5xl font-black text-white mb-2 mt-4">الكورس الشامل</h2>
-                <p class="text-gray-400 mb-8 text-lg">شامل المحتوى والتحديثات والدعم</p>
-                
-                <div class="flex justify-center items-end gap-3 mb-6">
-                    <span class="text-9xl font-black text-white tracking-tighter leading-none">2000</span>
-                    <div class="text-left flex flex-col mb-2">
-                        <span class="text-3xl font-bold text-[#4ade80]">EGP</span>
-                        <span class="text-xl text-gray-500 line-through">4000</span>
-                    </div>
-                </div>
-
-                <!-- جملة الأونلاين فقط المضافة -->
-                <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-6 py-3 rounded-full mb-10">
-                    <i class="fas fa-lock text-[#4ade80]"></i>
-                    <span class="text-gray-300 font-medium text-sm md:text-base">الكورس أونلاين مسجل فقط (متاح لك في أي وقت)</span>
-                </div>
-
-                <div class="flex flex-wrap justify-center gap-4 mb-10">
-                    <span class="bg-white/5 px-4 py-2 rounded-full flex items-center gap-2 border border-white/10">
-                        <i class="fas fa-check text-[#4ade80]"></i> مدى الحياة
-                    </span>
-                    <span class="bg-white/5 px-4 py-2 rounded-full flex items-center gap-2 border border-white/10">
-                        <i class="fas fa-check text-[#4ade80]"></i> شامل الملحقات
-                    </span>
-                    <span class="bg-white/5 px-4 py-2 rounded-full flex items-center gap-2 border border-white/10">
-                        <i class="fas fa-check text-[#4ade80]"></i> دعم شخصي
-                    </span>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <button onclick="openPayment('vodafone')" class="bg-[#25d366] hover:bg-[#1da851] text-white py-4 rounded-xl font-bold text-lg transition-transform hover:scale-105 shadow-lg shadow-green-500/20">
-                        فودافون كاش
-                    </button>
-                    <button onclick="openPayment('paypal')" class="bg-[#0070ba] hover:bg-[#005ea6] text-white py-4 rounded-xl font-bold text-lg transition-transform hover:scale-105 shadow-lg shadow-blue-500/20">
-                        PayPal
-                    </button>
-                    <button onclick="openPayment('binance')" class="bg-[#fcd535] hover:bg-[#e5c02b] text-black py-4 rounded-xl font-bold text-lg transition-transform hover:scale-105 shadow-lg shadow-yellow-500/20">
-                        Binance
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- آراء الطلاب (Slider) -->
-    <section id="testimonials" class="py-20 px-4 bg-[#0f0f11] rounded-[60px] overflow-hidden">
-        <div class="max-w-7xl mx-auto text-center reveal">
-            <h2 class="text-4xl font-bold mb-16 text-[#4ade80]">آراء الطلاب</h2>
+    <!-- آراء الطلاب -->
+    <section class="py-24 px-4 bg-[#080808]">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center text-white mb-12">قصص نجاح حقيقية <span class="text-brand">.</span></h2>
             
-            <!-- Swiper Container -->
-            <div class="swiper mySwiper pb-12">
-                <div class="swiper-wrapper">
-                    <!-- Slide 1 -->
-                    <div class="swiper-slide">
-                        <div class="glass-card p-8 h-full text-right mx-2">
-                            <div class="flex text-yellow-400 text-sm mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="text-gray-300 leading-loose">"صراحة الأستاذ إبراهيم غير فكرتي تمامًا عن الكورسات أونلاين. الكورس ممتع أوي وبيطور معاك طول الوقت."</p>
-                        </div>
-                    </div>
-                    <!-- Slide 2 -->
-                    <div class="swiper-slide">
-                        <div class="glass-card p-8 h-full text-right mx-2">
-                            <div class="flex text-yellow-400 text-sm mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="text-gray-300 leading-loose">"والله أنا استمتعت بالحلقة جداً جداً، وبالخصوص الحلقة الأخيرة، ديت التصميم في حته تانية."</p>
-                        </div>
-                    </div>
-                    <!-- Slide 3 -->
-                    <div class="swiper-slide">
-                        <div class="glass-card p-8 h-full text-right mx-2">
-                            <div class="flex text-yellow-400 text-sm mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="text-gray-300 leading-loose">"يا رجاله أنا صراحة في أول مستوى، بس تعلّمت أكتر من اليويتوب اللي قعدت عليه أكتر من سنة."</p>
-                        </div>
-                    </div>
-                    <!-- Slide 4 -->
-                    <div class="swiper-slide">
-                        <div class="glass-card p-8 h-full text-right mx-2">
-                            <div class="flex text-yellow-400 text-sm mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="text-gray-300 leading-loose">"الشرح جامد فشخ! لدرجة إن إبراهيم بيرجع يعيد كل نقطة شرحًا، صراحة، شكراً أوي ليك."</p>
-                        </div>
-                    </div>
-                    <!-- Slide 5 -->
-                    <div class="swiper-slide">
-                        <div class="glass-card p-8 h-full text-right mx-2">
-                            <div class="flex text-yellow-400 text-sm mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="text-gray-300 leading-loose">"شغلك محترم جدًا، وشطارتك باينة من أول دقيقة. انا لي الشرف انى بقيت معاك."</p>
-                        </div>
-                    </div>
-                    <!-- Slide 6 -->
-                    <div class="swiper-slide">
-                        <div class="glass-card p-8 h-full text-right mx-2">
-                            <div class="flex text-yellow-400 text-sm mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="text-gray-300 leading-loose">"بقيت واثق من شغلي وقدرت أكلم عملاء وأنا عارف أنا بعمل إيه. شكراً من قلبي بجد."</p>
-                        </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Review 1 -->
+                <div class="glass-card p-8 rounded-2xl relative group">
+                    <i class="fas fa-quote-right text-4xl text-white/5 absolute top-6 right-6"></i>
+                    <div class="flex text-brand mb-4 gap-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-gray-300 leading-relaxed mb-6">"كنت تايه في اليوتيوب سنة كاملة، الكورس ده لخص لي الطريق كله في شهر واحد. دلوقتي بشتغل مع يوتيوبرز سعوديين."</p>
+                    <div class="flex items-center gap-3 border-t border-white/5 pt-4">
+                        <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center font-bold text-white">A</div>
+                        <div><h4 class="font-bold text-white text-sm">أحمد علي</h4><p class="text-xs text-gray-500">مصمم فريلانسر</p></div>
                     </div>
                 </div>
-                <div class="swiper-pagination mt-8"></div>
+
+                <!-- Review 2 -->
+                <div class="glass-card p-8 rounded-2xl relative group mt-0 md:-mt-4">
+                    <i class="fas fa-quote-right text-4xl text-white/5 absolute top-6 right-6"></i>
+                    <div class="flex text-brand mb-4 gap-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-gray-300 leading-relaxed mb-6">"مستوى الـ AI ده لوحده تمن الكورس! تعلمت إزاي أطلع صور مش موجودة أصلاً وأستخدمها في التصميم. إبداع بجد."</p>
+                    <div class="flex items-center gap-3 border-t border-white/5 pt-4">
+                        <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center font-bold text-white">M</div>
+                        <div><h4 class="font-bold text-white text-sm">محمود سامي</h4><p class="text-xs text-gray-500">طالب</p></div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="glass-card p-8 rounded-2xl relative group">
+                    <i class="fas fa-quote-right text-4xl text-white/5 absolute top-6 right-6"></i>
+                    <div class="flex text-brand mb-4 gap-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="text-gray-300 leading-relaxed mb-6">"أحلى حاجة إن إبراهيم مش بيخبي معلومة، والدعم الفني شغال 24 ساعة لو وقفت قدامي أي مشكلة."</p>
+                    <div class="flex items-center gap-3 border-t border-white/5 pt-4">
+                        <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center font-bold text-white">O</div>
+                        <div><h4 class="font-bold text-white text-sm">عمر خالد</h4><p class="text-xs text-gray-500">صانع محتوى</p></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- About & Contact -->
-    <section id="about" class="py-20 px-4">
-        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12 reveal">
-            <div class="md:w-1/3">
-                <div class="w-72 h-72 rounded-[40px] overflow-hidden border-4 border-[#4ade80] shadow-2xl mx-auto rotate-3 hover:rotate-0 transition-transform duration-500">
-                    <img src="https://i.postimg.cc/zXmLwcfx/image.jpg" class="w-full h-full object-cover">
+    <!-- PRICING SECTION -->
+    <section id="pricing" class="py-20 px-4 flex items-center justify-center min-h-[80vh] relative overflow-hidden">
+        <div class="absolute w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="glass-card max-w-2xl w-full rounded-[3rem] p-8 md:p-12 text-center border-2 border-brand/20 relative z-10 transform hover:scale-[1.01] transition-all duration-500">
+            
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-red-600 text-white font-bold px-8 py-3 rounded-full shadow-2xl urgent-badge flex items-center gap-2 whitespace-nowrap z-20">
+                <i class="fas fa-fire"></i> عرض نهاية السنة الحصري
+            </div>
+
+            <h2 class="text-4xl font-black text-white mt-8 mb-2">الباقة الذهبية الشاملة</h2>
+            <p class="text-gray-400 mb-8">شامل الكورس + التحديثات + ملحقات التصميم</p>
+
+            <div class="flex justify-center items-end gap-4 mb-6">
+                <div class="text-gray-500 line-through text-2xl font-bold mb-4">4000</div>
+                <div class="text-[7rem] leading-none font-black text-white tracking-tighter drop-shadow-lg">1200</div>
+                <div class="text-brand text-2xl font-bold mb-6">EGP</div>
+            </div>
+
+            <div class="bg-brand/10 border border-brand/20 rounded-xl p-4 mb-8">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-brand font-bold text-lg">خصم 70% لأول 10 مشتركين</span>
+                    <span class="text-red-500 font-bold animate-pulse text-sm">🔥 سارع بالحجز</span>
+                </div>
+                <div class="w-full bg-gray-800 rounded-full h-3">
+                    <div class="bg-gradient-to-r from-red-500 to-brand h-3 rounded-full w-[70%] relative">
+                        <span class="absolute -top-10 right-0 bg-white text-black text-xs font-bold px-2 py-1 rounded">متبقي 3 أماكن فقط</span>
+                    </div>
                 </div>
             </div>
-            <div class="md:w-2/3 text-center md:text-right">
-                <h2 class="text-4xl font-bold mb-6 text-[#4ade80]">عن إبراهيم بخيت</h2>
-                <p class="text-xl text-gray-300 leading-relaxed mb-10">
-                    أنا إبراهيم بخيت، مصمم جرافيك بخبرة تزيد عن 6 سنوات في مجال تصميم الصور المصغرة. جئت لأنقل لك كل خبرتي العملية في كورس واحد شامل، يضع بين يديك أدوات وأسرار احتراف التصميم.
-                </p>
-                
-                <div class="glass-card p-10 rounded-3xl">
-                    <h3 class="text-2xl font-bold mb-6 text-white">تواصل معي</h3>
-                    <div class="flex justify-center md:justify-start gap-8 text-3xl mb-8">
-                        <a href="#" class="text-white hover:text-[#4ade80] hover:-translate-y-1 transition-transform"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-white hover:text-[#4ade80] hover:-translate-y-1 transition-transform"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-white hover:text-[#4ade80] hover:-translate-y-1 transition-transform"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="text-white hover:text-[#4ade80] hover:-translate-y-1 transition-transform"><i class="fab fa-youtube"></i></a>
-                    </div>
-                    <div class="space-y-4">
-                        <textarea id="msg" class="w-full bg-black/30 border border-white/10 rounded-2xl p-4 text-white h-32 focus:outline-none focus:border-[#4ade80] focus:ring-1 focus:ring-[#4ade80] transition-all" placeholder="اكتب رسالتك..."></textarea>
-                        <button onclick="sendWhatsapp()" class="bg-[#4ade80] hover:bg-[#3ebb70] text-white font-bold py-4 px-8 rounded-2xl w-full transition-transform hover:scale-[1.02] shadow-lg shadow-green-500/20 flex items-center justify-center gap-2 text-lg">
-                            أرسل عبر واتساب <i class="fab fa-whatsapp text-2xl"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+
+            <button onclick="openPayment()" class="w-full bg-brand hover:bg-white text-black font-black text-2xl py-6 rounded-2xl shadow-[0_0_40px_rgba(57,255,20,0.4)] hover:shadow-[0_0_60px_rgba(255,255,255,0.6)] transition-all duration-300 flex justify-center items-center gap-3">
+                <i class="fab fa-whatsapp"></i> اشترك الآن بـ 1200 ج
+            </button>
+            <p class="mt-4 text-gray-500 text-sm font-medium">اوعدك هتكون Thumbnail Designer </p>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-10 text-center border-t border-white/10 text-gray-500">
-        <p class="text-lg">&copy; 2024 كورس إبراهيم بخيت. جميع الحقوق محفوظة.</p>
+    <footer class="py-8 text-center text-gray-600 border-t border-white/5">
+        <p class="text-sm">جميع الحقوق محفوظة © 2025 - المهندس إبراهيم بخيت</p>
     </footer>
 
     <!-- Payment Modal -->
-    <div id="payModal" class="modal-overlay">
-        <div class="bg-[#1a1a1f] p-10 rounded-3xl max-w-md w-full text-center border border-white/10 mx-4 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#4ade80] to-transparent"></div>
-            <h3 class="text-3xl font-bold mb-6 text-white">تفاصيل الدفع</h3>
-            <p id="payText" class="text-gray-300 mb-8 leading-relaxed text-lg"></p>
-            <a id="payLink" href="#" class="bg-[#25d366] text-white py-4 px-6 rounded-xl font-bold block hover:bg-[#1da851] transition-transform hover:scale-105">تواصل واتساب الآن</a>
-            <button onclick="closePayment()" class="mt-6 text-gray-500 hover:text-white text-sm font-bold">إغلاق النافذة</button>
+    <div id="payModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center p-4 z-[9999] backdrop-blur-md">
+        <div class="bg-[#151515] border border-white/10 p-8 rounded-3xl max-w-md w-full text-center">
+            <h3 class="text-2xl font-bold text-white mb-4">تأكيد الحجز</h3>
+            <p class="text-gray-400 mb-6">سيتم تحويلك للواتساب لإتمام الدفع وتفعيل الكورس فوراً.</p>
+            <a href="https://api.whatsapp.com/send?phone=201025199409&text=مرحباً، أريد حجز عرض الـ 1200 جنيه قبل انتهاء العدد." class="block w-full bg-brand text-black font-bold py-4 rounded-xl mb-4 hover:bg-white transition-colors">
+                متابعة للواتساب
+            </a>
+            <button onclick="document.getElementById('payModal').classList.add('hidden')" class="text-gray-500 hover:text-white">إلغاء</button>
         </div>
     </div>
-
-    <!-- Image Modal -->
-    <div id="imgModal" class="modal-overlay" onclick="this.classList.remove('active')">
-        <div class="relative max-w-5xl w-full p-4">
-            <img id="fullImg" src="" class="w-full h-auto rounded-2xl shadow-2xl">
-            <button class="absolute top-6 right-6 bg-black/50 text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-black transition"><i class="fas fa-times text-xl"></i></button>
-        </div>
-    </div>
-
-    <!-- Swiper JS Library -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-        // Initialize Swiper Slider for Testimonials
-        var swiper = new Swiper(".mySwiper", {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            breakpoints: {
-                768: {
-                    slidesPerView: 2,
-                },
-                1024: {
-                    slidesPerView: 3,
-                },
-            },
-        });
-
-        // Scroll Reveal Animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // Collapsible Sections
-        document.querySelectorAll('.collapsible-header').forEach(h => {
-            h.addEventListener('click', () => {
-                const content = document.getElementById(h.dataset.target);
-                content.classList.toggle('expanded');
-                const icon = h.querySelector('i');
+        // Toggle Accordion
+        document.querySelectorAll('.collapsible-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = document.getElementById(header.dataset.target);
+                const icon = header.querySelector('i');
+                
                 if (content.classList.contains('expanded')) {
-                    icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+                    content.classList.remove('expanded');
+                    icon.classList.remove('fa-minus');
+                    icon.classList.add('fa-plus');
                 } else {
-                    icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+                    document.querySelectorAll('.collapsible-content').forEach(c => c.classList.remove('expanded'));
+                    document.querySelectorAll('.fa-minus').forEach(i => {
+                         i.classList.remove('fa-minus'); 
+                         i.classList.add('fa-plus');
+                    });
+                    
+                    content.classList.add('expanded');
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus');
                 }
             });
         });
 
-        // Mobile Menu
-        const menu = document.getElementById('mobile-menu');
-        document.getElementById('mobile-btn').onclick = () => menu.classList.add('active');
-        document.getElementById('mobile-close').onclick = () => menu.classList.remove('active');
-        menu.onclick = (e) => { if(e.target.tagName === 'A') menu.classList.remove('active'); };
-
-        // Image Modal
-        const imgModal = document.getElementById('imgModal');
-        const fullImg = document.getElementById('fullImg');
-        document.querySelectorAll('.clickable-image').forEach(img => {
-            img.onclick = () => {
-                fullImg.src = img.src;
-                imgModal.classList.add('active');
-            };
-        });
-
-        // Payment Modal Logic
-        const payModal = document.getElementById('payModal');
-        const payText = document.getElementById('payText');
-        const payLink = document.getElementById('payLink');
-        
-        function openPayment(method) {
-            let msg = "", wa = "مرحباً إبراهيم، استفسار بخصوص الدفع: " + method;
-            if(method === 'vodafone') msg = "للحجز بسعر الخصم: حوّل 2000 جنيه على فودافون كاش 01025199409 وأرسل الإيصال واتساب.";
-            else if(method === 'paypal') msg = "للدفع عبر PayPal تواصل واتساب للحصول على الرابط.";
-            else msg = "للدفع عبر Binance USDT تواصل واتساب للحصول على العنوان.";
-            
-            payText.textContent = msg;
-            payLink.href = "https://api.whatsapp.com/send?phone=201025199409&text=" + encodeURIComponent(wa);
-            payModal.classList.add('active');
+        // Open Modal
+        function openPayment() {
+            document.getElementById('payModal').classList.remove('hidden');
+            document.getElementById('payModal').classList.add('flex');
         }
-        function closePayment() { payModal.classList.remove('active'); }
-
-        // Contact Function
-        function sendWhatsapp() {
-            let txt = document.getElementById('msg').value || "مرحباً إبراهيم، لدي استفسار.";
-            window.open("https://api.whatsapp.com/send?phone=201025199409&text=" + encodeURIComponent(txt), '_blank');
-        }
-
-        // Hero Slider
-        let slideIdx = 0;
-        const slides = document.querySelectorAll('.hero-slide');
-        setInterval(() => {
-            slides[slideIdx].classList.remove('active');
-            slideIdx = (slideIdx + 1) % slides.length;
-            slides[slideIdx].classList.add('active');
-        }, 4000);
     </script>
 </body>
 </html>
