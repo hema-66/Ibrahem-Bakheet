@@ -34,6 +34,8 @@
       --card: rgba(18,18,20,.75);
       --border: rgba(255,255,255,.08);
       --brand: #39ff14;
+      --gold: #FFD700;
+      --gold-light: #FFF0A0;
     }
 
     body{
@@ -186,6 +188,200 @@
       border:2px solid #0a0a0a;
     }
 
+    /* ===== EID OFFER STYLES ===== */
+
+    /* Top urgency bar */
+    .eid-topbar {
+      background: linear-gradient(90deg, #b8860b, #FFD700, #FFF0A0, #FFD700, #b8860b);
+      background-size: 300% 100%;
+      animation: goldShimmer 3s ease infinite;
+      color: #000;
+    }
+
+    @keyframes goldShimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Eid badge on hero */
+    .eid-badge {
+      background: linear-gradient(135deg, #b8860b, #FFD700, #FFF0A0, #FFD700);
+      background-size: 200% 200%;
+      animation: goldShimmer 2s ease infinite;
+      color: #000;
+      font-weight: 900;
+      border-radius: 999px;
+      padding: 4px 16px;
+      font-size: 0.85rem;
+      display: inline-block;
+    }
+
+    /* Countdown timer */
+    .countdown-box {
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,215,0,0.3);
+      border-radius: 16px;
+      padding: 12px 18px;
+      text-align: center;
+      min-width: 70px;
+    }
+
+    .countdown-num {
+      font-size: 2.2rem;
+      font-weight: 900;
+      line-height: 1;
+      color: #FFD700;
+    }
+
+    .countdown-label {
+      font-size: 0.7rem;
+      color: rgba(255,215,0,0.7);
+      margin-top: 4px;
+    }
+
+    /* Seats remaining */
+    .seats-bar {
+      background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.3);
+      border-radius: 999px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .seats-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #b8860b, #FFD700);
+      animation: seatPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes seatPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.75; }
+    }
+
+    /* Price strikethrough */
+    .price-old {
+      font-size: 1.5rem;
+      color: rgba(255,255,255,0.35);
+      text-decoration: line-through;
+      text-decoration-color: rgba(255,60,60,0.6);
+    }
+
+    .price-new {
+      font-size: 5rem;
+      font-weight: 900;
+      color: #FFD700;
+      line-height: 1;
+    }
+
+    /* Offer card border */
+    .offer-card {
+      border: 2px solid rgba(255,215,0,0.35) !important;
+      box-shadow:
+        0 0 40px rgba(255,215,0,0.08),
+        0 0 0 1px rgba(255,215,0,0.05) inset,
+        0 18px 60px rgba(0,0,0,.45) !important;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .offer-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #FFD700, transparent);
+      animation: scanLine 2s ease-in-out infinite;
+    }
+
+    @keyframes scanLine {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    .offer-card::after {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(255,215,0,0.07), transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Discount badge */
+    .discount-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #c00, #ff3333);
+      color: #fff;
+      font-weight: 900;
+      padding: 6px 20px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(255,0,0,0.4);
+      z-index: 10;
+    }
+
+    /* CTA pulsate */
+    .cta-pulse {
+      animation: ctaPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes ctaPulse {
+      0%, 100% { box-shadow: 0 18px 45px rgba(57,255,20,.18); }
+      50% { box-shadow: 0 18px 60px rgba(57,255,20,.40), 0 0 80px rgba(57,255,20,.12); }
+    }
+
+    /* Crescent decoration */
+    .crescent {
+      font-size: 2rem;
+      display: inline-block;
+      animation: crescentSway 3s ease-in-out infinite;
+    }
+
+    @keyframes crescentSway {
+      0%, 100% { transform: rotate(-8deg); }
+      50% { transform: rotate(8deg); }
+    }
+
+    /* Floating stars */
+    .star-float {
+      display: inline-block;
+      animation: starFloat 2s ease-in-out infinite;
+    }
+    .star-float:nth-child(2) { animation-delay: 0.4s; }
+    .star-float:nth-child(3) { animation-delay: 0.8s; }
+
+    @keyframes starFloat {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(-5px); opacity: 0.7; }
+    }
+
+    /* Sticky bottom CTA */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      background: rgba(5,5,5,0.95);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255,215,0,0.2);
+      padding: 12px 16px;
+      transform: translateY(100%);
+      transition: transform 0.35s ease;
+    }
+
+    .sticky-cta.visible {
+      transform: translateY(0);
+    }
+
     @media (prefers-reduced-motion: reduce){
       *{
         scroll-behavior:auto !important;
@@ -198,8 +394,13 @@
 
 <body class="selection:bg-brand selection:text-black">
 
+  <!-- TOP URGENCY BAR -->
+  <div class="eid-topbar py-2 px-4 text-center text-sm font-black sticky top-0 z-[100]">
+    🐑 عرض عيد الأضحى المبارك — <strong>أول 5 أشخاص بس!</strong> — الكورس بـ <strong>1,000 جنيه بدل 4,000</strong> ⏳
+  </div>
+
   <!-- NAVBAR -->
-  <nav class="fixed w-full z-50 top-0 py-4" id="navbar">
+  <nav class="w-full z-50 top-8 py-4 relative" id="navbar">
     <div class="max-w-7xl mx-auto px-4 md:px-6">
       <div class="glass rounded-full px-5 md:px-7 py-3 flex justify-between items-center bg-black/65">
         <a href="#" class="font-black text-base md:text-lg tracking-wider text-white hover:text-brand transition-colors">
@@ -213,14 +414,71 @@
         </div>
 
         <a href="#pricing" class="bg-brand text-black px-6 py-2 rounded-full font-black text-sm hover:bg-white btn">
-          احجز الآن
+          احجز بـ 1000 فقط
         </a>
       </div>
     </div>
   </nav>
 
+  <!-- EID HERO BANNER -->
+  <div class="py-6 px-4 bg-gradient-to-b from-[#0a0800] to-transparent">
+    <div class="max-w-4xl mx-auto">
+      <div class="rounded-3xl border border-yellow-500/30 bg-gradient-to-br from-[#1a1200] to-[#0a0a0a] p-6 md:p-8 text-center relative overflow-hidden">
+        <!-- decorative glow -->
+        <div class="absolute inset-0 pointer-events-none">
+          <div style="position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(255,215,0,0.12),transparent 65%);"></div>
+        </div>
+
+        <div class="relative z-10">
+          <div class="flex justify-center gap-3 mb-4">
+            <span class="crescent">🌙</span>
+            <span class="star-float" style="font-size:1.5rem;color:#FFD700;">✦</span>
+            <span class="star-float" style="font-size:1.2rem;color:#FFD700;">✦</span>
+            <span class="star-float" style="font-size:1rem;color:#FFD700;">✦</span>
+          </div>
+
+          <div class="eid-badge mb-3 text-base">🎊 عيد الأضحى المبارك — عرض لأول 5 فقط 🎊</div>
+
+          <h2 class="text-2xl md:text-4xl font-black text-white mb-2">
+            الكورس بـ <span style="color:#FFD700;">1,000 جنيه</span> بدل <span class="price-old text-3xl">4,000</span>
+          </h2>
+          <p class="text-gray-300 mb-6">توفير 3,000 جنيه — العرض ده مش هيتكرر، وبينتهي مع أول 5 حجوزات</p>
+
+          <!-- Countdown -->
+          <div class="mb-6">
+            <p class="text-yellow-400/80 text-sm font-bold mb-3">⏳ الوقت المتبقي للعرض:</p>
+            <div class="flex justify-center gap-3" id="countdown">
+              <div class="countdown-box"><div class="countdown-num" id="cd-h">00</div><div class="countdown-label">ساعة</div></div>
+              <div class="countdown-box text-yellow-600 text-2xl font-black flex items-center pb-3">:</div>
+              <div class="countdown-box"><div class="countdown-num" id="cd-m">00</div><div class="countdown-label">دقيقة</div></div>
+              <div class="countdown-box text-yellow-600 text-2xl font-black flex items-center pb-3">:</div>
+              <div class="countdown-box"><div class="countdown-num" id="cd-s">00</div><div class="countdown-label">ثانية</div></div>
+            </div>
+          </div>
+
+          <!-- Seats remaining -->
+          <div class="max-w-xs mx-auto mb-6">
+            <div class="flex justify-between text-sm mb-2">
+              <span class="text-yellow-400 font-black">المقاعد المتبقية</span>
+              <span class="text-white font-black" id="seats-text">3 من 5</span>
+            </div>
+            <div class="seats-bar">
+              <div class="seats-fill" id="seats-fill" style="width:60%;"></div>
+            </div>
+            <p class="text-gray-400 text-xs mt-2">تم حجز مقعدين بالفعل — سارع قبل الامتلاء</p>
+          </div>
+
+          <a onclick="openPayment()" href="#" class="inline-flex items-center gap-3 bg-brand text-black font-black text-lg px-10 py-4 rounded-2xl btn cta-pulse">
+            <i class="fab fa-whatsapp text-2xl"></i>
+            احجز مكانك بـ 1,000 جنيه الآن
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- HERO -->
-  <header class="min-h-[90vh] flex items-center justify-center px-4 pt-32 pb-14 relative overflow-hidden">
+  <header class="min-h-[90vh] flex items-center justify-center px-4 pt-12 pb-14 relative overflow-hidden">
     <div class="absolute inset-0 grid-dots"></div>
     <div class="absolute -top-10 left-8 w-28 h-28 bg-brand/20 rounded-full blob"></div>
     <div class="absolute bottom-10 right-8 w-40 h-40 bg-brand/15 rounded-full blob"></div>
@@ -249,8 +507,8 @@
         </div>
 
         <div class="flex flex-col sm:flex-row gap-3 pt-2 justify-center lg:justify-start">
-          <a href="#pricing" class="bg-brand text-black text-lg font-black px-10 py-4 rounded-2xl btn text-center">
-            احجز الكورس الآن
+          <a onclick="openPayment()" href="#" class="bg-brand text-black text-lg font-black px-10 py-4 rounded-2xl btn text-center">
+            🎊 احجز بسعر العيد — 1,000 جنيه
           </a>
           <a href="#faq" class="border border-white/15 bg-white/5 text-white text-lg font-black px-10 py-4 rounded-2xl hover:bg-white/10 transition text-center">
             شوف الأسئلة الشائعة
@@ -402,66 +660,43 @@
 
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         <div class="glass rounded-2xl p-2">
-          <div class="thumb rounded-xl">
-            <img src="https://i.postimg.cc/c4jzdkZp/thdy.jpg" class="clickable-image rounded-xl" alt="عمل طالب 1">
-          </div>
+          <div class="thumb rounded-xl"><img src="https://i.postimg.cc/c4jzdkZp/thdy.jpg" class="clickable-image rounded-xl" alt="عمل طالب 1"></div>
           <p class="text-sm text-center mt-3 text-gray-300">طالب بدأ من الصفر ووصل لكده</p>
         </div>
-
         <div class="glass rounded-2xl p-2">
-          <div class="thumb rounded-xl">
-            <img src="https://i.postimg.cc/Kj8W8d1k/47891d5e-f0db-43b1-be2c-27d6bac5c5ff.jpg" class="clickable-image rounded-xl" alt="عمل طالب 2">
-          </div>
+          <div class="thumb rounded-xl"><img src="https://i.postimg.cc/Kj8W8d1k/47891d5e-f0db-43b1-be2c-27d6bac5c5ff.jpg" class="clickable-image rounded-xl" alt="عمل طالب 2"></div>
           <p class="text-sm text-center mt-3 text-gray-300">تطور واضح في الترتيب والهوك</p>
         </div>
-
         <div class="glass rounded-2xl p-2">
-          <div class="thumb rounded-xl">
-            <img src="https://i.postimg.cc/Cx39sPQv/1.jpg" class="clickable-image rounded-xl" alt="عمل طالب 3">
-          </div>
+          <div class="thumb rounded-xl"><img src="https://i.postimg.cc/Cx39sPQv/1.jpg" class="clickable-image rounded-xl" alt="عمل طالب 3"></div>
           <p class="text-sm text-center mt-3 text-gray-300">تطبيق عملي بعد فهم الفكرة</p>
         </div>
-
         <div class="glass rounded-2xl p-2">
-          <div class="thumb rounded-xl">
-            <img src="https://i.postimg.cc/Gh20LsDH/2942ae27-7653-4360-bd68-69c79fd79ea2.jpg" class="clickable-image rounded-xl" alt="عمل طالب 4">
-          </div>
+          <div class="thumb rounded-xl"><img src="https://i.postimg.cc/Gh20LsDH/2942ae27-7653-4360-bd68-69c79fd79ea2.jpg" class="clickable-image rounded-xl" alt="عمل طالب 4"></div>
           <p class="text-sm text-center mt-3 text-gray-300">نتيجة احترافية من طالب</p>
         </div>
-
         <div class="glass rounded-2xl p-2">
-          <div class="thumb rounded-xl">
-            <img src="https://i.postimg.cc/mkLvFP5k/86774478-08d1-406b-b5ca-84fd62b4af05.jpg" class="clickable-image rounded-xl" alt="عمل طالب 5">
-          </div>
+          <div class="thumb rounded-xl"><img src="https://i.postimg.cc/mkLvFP5k/86774478-08d1-406b-b5ca-84fd62b4af05.jpg" class="clickable-image rounded-xl" alt="عمل طالب 5"></div>
           <p class="text-sm text-center mt-3 text-gray-300">شغل أنضف بعد التطبيق</p>
         </div>
-
         <div class="glass rounded-2xl p-2">
-          <div class="thumb rounded-xl">
-            <img src="https://i.postimg.cc/zG4YPXVc/611fbac1-570b-49bd-933c-205713cd2c2e.jpg" class="clickable-image rounded-xl" alt="عمل طالب 6">
-          </div>
+          <div class="thumb rounded-xl"><img src="https://i.postimg.cc/zG4YPXVc/611fbac1-570b-49bd-933c-205713cd2c2e.jpg" class="clickable-image rounded-xl" alt="عمل طالب 6"></div>
           <p class="text-sm text-center mt-3 text-gray-300">ألوان أقوى وتوازن أفضل</p>
         </div>
-
         <div class="glass rounded-2xl p-2">
-          <div class="thumb rounded-xl">
-            <img src="https://i.postimg.cc/pTfvjbVJ/7467497d-a051-4726-b1b2-f1335c52cff3.jpg" class="clickable-image rounded-xl" alt="عمل طالب 7">
-          </div>
+          <div class="thumb rounded-xl"><img src="https://i.postimg.cc/pTfvjbVJ/7467497d-a051-4726-b1b2-f1335c52cff3.jpg" class="clickable-image rounded-xl" alt="عمل طالب 7"></div>
           <p class="text-sm text-center mt-3 text-gray-300">تطور واضح في الـ composition</p>
         </div>
-
         <div class="glass rounded-2xl p-2">
-          <div class="thumb rounded-xl">
-            <img src="https://i.postimg.cc/bN3zLhxt/99f8dd8b-95fc-48bf-9515-7a9a193b6544.jpg" class="clickable-image rounded-xl" alt="عمل طالب 8">
-          </div>
+          <div class="thumb rounded-xl"><img src="https://i.postimg.cc/bN3zLhxt/99f8dd8b-95fc-48bf-9515-7a9a193b6544.jpg" class="clickable-image rounded-xl" alt="عمل طالب 8"></div>
           <p class="text-sm text-center mt-3 text-gray-300">تقفيل أفضل بعد الكورس</p>
         </div>
       </div>
 
       <div class="text-center mt-8">
-        <a href="#pricing" class="inline-flex items-center gap-2 bg-brand text-black font-black px-8 py-4 rounded-2xl btn">
+        <a onclick="openPayment()" href="#" class="inline-flex items-center gap-2 bg-brand text-black font-black px-8 py-4 rounded-2xl btn">
           <i class="fa-solid fa-ticket"></i>
-          احجز مكانك الآن
+          احجز مكانك بسعر العيد — 1,000 جنيه
         </a>
       </div>
     </div>
@@ -474,7 +709,6 @@
         <h2 class="text-3xl md:text-4xl font-black text-white">مستوى الشغل اللي هتتعلمه</h2>
         <p class="text-gray-400 mt-2">دي تطبيقات من الكورس نفسه علشان الطالب يشوف المستوى المستهدف.</p>
       </div>
-
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         <div class="glass rounded-2xl p-2"><div class="thumb rounded-xl"><img src="https://i.postimg.cc/wjQbDqDL/twbz.jpg" class="clickable-image rounded-xl" alt="تطبيق 1"></div></div>
         <div class="glass rounded-2xl p-2"><div class="thumb rounded-xl"><img src="https://i.postimg.cc/k57tr8Qg/khals.jpg" class="clickable-image rounded-xl" alt="تطبيق 2"></div></div>
@@ -498,39 +732,20 @@
 
       <div class="grid md:grid-cols-2 gap-4">
         <div class="glass rounded-3xl p-6 text-right">
-          <div class="flex text-brand mb-3 text-lg gap-1">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-          <p class="text-gray-200 leading-relaxed text-sm">
-            بصراحة أنا كنت متردد في البداية، لكن بعد ما دخلت الكورس لقيت المحتوى منظم وواضح جدًا، وحسيت إني فاهم الثمنيل لأول مرة بشكل عملي.
-          </p>
+          <div class="flex text-brand mb-3 text-lg gap-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p class="text-gray-200 leading-relaxed text-sm">بصراحة أنا كنت متردد في البداية، لكن بعد ما دخلت الكورس لقيت المحتوى منظم وواضح جدًا، وحسيت إني فاهم الثمنيل لأول مرة بشكل عملي.</p>
         </div>
-
         <div class="glass rounded-3xl p-6 text-right">
-          <div class="flex text-brand mb-3 text-lg gap-1">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-          <p class="text-gray-200 leading-relaxed text-sm">
-            أنا كنت عندي خبرة قبل الكورس، لكن اتعلمت منه حاجات كتير جدًا في التفكير والترتيب والنتيجة النهائية. فرق معايا بجد.
-          </p>
+          <div class="flex text-brand mb-3 text-lg gap-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p class="text-gray-200 leading-relaxed text-sm">أنا كنت عندي خبرة قبل الكورس، لكن اتعلمت منه حاجات كتير جدًا في التفكير والترتيب والنتيجة النهائية. فرق معايا بجد.</p>
         </div>
-
         <div class="glass rounded-3xl p-6 text-right">
-          <div class="flex text-brand mb-3 text-lg gap-1">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-          <p class="text-gray-200 leading-relaxed text-sm">
-            أول مرة أفهم الثمنيل بالبساطة دي. الشرح واضح جدًا، وكل خطوة ليها سبب، وده خلاني أبدأ أطبق وأنا فاهم.
-          </p>
+          <div class="flex text-brand mb-3 text-lg gap-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p class="text-gray-200 leading-relaxed text-sm">أول مرة أفهم الثمنيل بالبساطة دي. الشرح واضح جدًا، وكل خطوة ليها سبب، وده خلاني أبدأ أطبق وأنا فاهم.</p>
         </div>
-
         <div class="glass rounded-3xl p-6 text-right">
-          <div class="flex text-brand mb-3 text-lg gap-1">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-          <p class="text-gray-200 leading-relaxed text-sm">
-            الكورس مهم جدًا لأي حد عايز يدخل مجال الجرافيك أو يشتغل ثمنيل، لأنه مش بيعلمك تنفيذ بس، لكن بيعلمك تفكر صح قبل التنفيذ.
-          </p>
+          <div class="flex text-brand mb-3 text-lg gap-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p class="text-gray-200 leading-relaxed text-sm">الكورس مهم جدًا لأي حد عايز يدخل مجال الجرافيك أو يشتغل ثمنيل، لأنه مش بيعلمك تنفيذ بس، لكن بيعلمك تفكر صح قبل التنفيذ.</p>
         </div>
       </div>
     </div>
@@ -550,9 +765,7 @@
             <span class="font-black text-lg">هل الكورس مناسب للمبتدئين؟</span>
             <i class="fa-solid fa-plus faq-icon text-brand"></i>
           </button>
-          <div class="faq-content px-6">
-            <p class="pb-6 text-gray-300 leading-7">نعم، الكورس مناسب جدًا للمبتدئ لأنه يبدأ من الأساسيات ثم ينقلك بالتدريج للتطبيق العملي.</p>
-          </div>
+          <div class="faq-content px-6"><p class="pb-6 text-gray-300 leading-7">نعم، الكورس مناسب جدًا للمبتدئ لأنه يبدأ من الأساسيات ثم ينقلك بالتدريج للتطبيق العملي.</p></div>
         </div>
 
         <div class="faq-item glass rounded-3xl overflow-hidden">
@@ -560,9 +773,7 @@
             <span class="font-black text-lg">هل أحتاج خبرة في فوتوشوب قبل الاشتراك؟</span>
             <i class="fa-solid fa-plus faq-icon text-brand"></i>
           </button>
-          <div class="faq-content px-6">
-            <p class="pb-6 text-gray-300 leading-7">لا يشترط تكون محترف. المعرفة البسيطة تساعد، لكن الكورس مرتب بحيث تفهم الشغل خطوة بخطوة.</p>
-          </div>
+          <div class="faq-content px-6"><p class="pb-6 text-gray-300 leading-7">لا يشترط تكون محترف. المعرفة البسيطة تساعد، لكن الكورس مرتب بحيث تفهم الشغل خطوة بخطوة.</p></div>
         </div>
 
         <div class="faq-item glass rounded-3xl overflow-hidden">
@@ -570,9 +781,7 @@
             <span class="font-black text-lg">هل الكورس أونلاين بالكامل؟</span>
             <i class="fa-solid fa-plus faq-icon text-brand"></i>
           </button>
-          <div class="faq-content px-6">
-            <p class="pb-6 text-gray-300 leading-7">نعم، الكورس أونلاين بالكامل وتقدر تتابعه في الوقت المناسب لك.</p>
-          </div>
+          <div class="faq-content px-6"><p class="pb-6 text-gray-300 leading-7">نعم، الكورس أونلاين بالكامل وتقدر تتابعه في الوقت المناسب لك.</p></div>
         </div>
 
         <div class="faq-item glass rounded-3xl overflow-hidden">
@@ -580,9 +789,7 @@
             <span class="font-black text-lg">هل سأحصل على ملفات العمل؟</span>
             <i class="fa-solid fa-plus faq-icon text-brand"></i>
           </button>
-          <div class="faq-content px-6">
-            <p class="pb-6 text-gray-300 leading-7">نعم، ستحصل على ملفات العمل والمواد التطبيقية المذكورة داخل العرض.</p>
-          </div>
+          <div class="faq-content px-6"><p class="pb-6 text-gray-300 leading-7">نعم، ستحصل على ملفات العمل والمواد التطبيقية المذكورة داخل العرض.</p></div>
         </div>
 
         <div class="faq-item glass rounded-3xl overflow-hidden">
@@ -590,9 +797,16 @@
             <span class="font-black text-lg">هل الوصول للكورس مؤقت أم دائم؟</span>
             <i class="fa-solid fa-plus faq-icon text-brand"></i>
           </button>
-          <div class="faq-content px-6">
-            <p class="pb-6 text-gray-300 leading-7">الوصول للكورس مدى الحياة، بالإضافة إلى التحديثات المستقبلية المجانية.</p>
-          </div>
+          <div class="faq-content px-6"><p class="pb-6 text-gray-300 leading-7">الوصول للكورس مدى الحياة، بالإضافة إلى التحديثات المستقبلية المجانية.</p></div>
+        </div>
+
+        <!-- NEW FAQ for Eid offer -->
+        <div class="faq-item glass rounded-3xl overflow-hidden border border-yellow-500/20">
+          <button class="faq-toggle w-full px-6 py-5 text-right flex items-center justify-between gap-4">
+            <span class="font-black text-lg">🎊 هل عرض العيد حقيقي؟ لغاية امتى؟</span>
+            <i class="fa-solid fa-plus faq-icon text-brand"></i>
+          </button>
+          <div class="faq-content px-6"><p class="pb-6 text-gray-300 leading-7">أيوه العرض حقيقي 100٪ — الكورس بـ 1,000 جنيه بدل 4,000 لأول 5 أشخاص فقط بمناسبة عيد الأضحى المبارك. بعد اكتمال الـ 5 مقاعد أو انتهاء العرض، السعر يرجع 4,000 جنيه.</p></div>
         </div>
 
         <div class="faq-item glass rounded-3xl overflow-hidden">
@@ -600,18 +814,20 @@
             <span class="font-black text-lg">كيف أحجز وأدفع؟</span>
             <i class="fa-solid fa-plus faq-icon text-brand"></i>
           </button>
-          <div class="faq-content px-6">
-            <p class="pb-6 text-gray-300 leading-7">تضغط على زر الحجز، وتتحول مباشرة للواتساب، ومن هناك يتم تأكيد الحجز واختيار طريقة الدفع المناسبة.</p>
-          </div>
+          <div class="faq-content px-6"><p class="pb-6 text-gray-300 leading-7">تضغط على زر الحجز، وتتحول مباشرة للواتساب، ومن هناك يتم تأكيد الحجز واختيار طريقة الدفع المناسبة.</p></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PRICING -->
+  <!-- PRICING — EID EDITION -->
   <section id="pricing" class="py-16 px-4 bg-[#080808] relative overflow-hidden">
-    <div class="max-w-6xl mx-auto">
+    <!-- background glow -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(255,215,0,0.05),transparent 65%);pointer-events:none;"></div>
+
+    <div class="max-w-6xl mx-auto relative z-10">
       <div class="text-center mb-10">
+        <div class="eid-badge mb-4 text-lg inline-block">🌙 عرض عيد الأضحى المبارك 🌙</div>
         <h2 class="text-3xl md:text-4xl font-black text-white">جاهز تبدأ؟</h2>
         <p class="text-gray-400 mt-2">دلوقتي الطالب فاهم الكورس، شاف النتائج، شاف الآراء، وبقى جاهز ياخد القرار.</p>
       </div>
@@ -640,20 +856,48 @@
           </div>
         </div>
 
-        <div class="glass rounded-[2rem] p-8 text-center sticky top-28">
-          <div class="inline-flex items-center gap-2 chip text-brand font-black px-5 py-2 rounded-full mb-5">
+        <!-- PRICING CARD -->
+        <div class="glass offer-card rounded-[2rem] p-8 text-center sticky top-28 relative">
+          <div class="discount-badge">🔥 وفّر 3,000 جنيه</div>
+
+          <div class="inline-flex items-center gap-2 chip text-brand font-black px-5 py-2 rounded-full mt-6 mb-5">
             <i class="fa-solid fa-star"></i>
             التسجيل متاح الآن
           </div>
 
           <h3 class="text-2xl font-black text-white mb-2">الباقة الشاملة</h3>
-          <p class="text-gray-400 text-sm mb-6">دفعة واحدة تشمل كل المحتوى الحالي والتحديثات القادمة.</p>
+          <p class="text-gray-400 text-sm mb-4">عرض محدود — أول 5 أشخاص فقط</p>
 
+          <!-- Seats progress inside card -->
+          <div class="mb-5">
+            <div class="flex justify-between text-xs mb-2">
+              <span class="text-yellow-400 font-bold">المقاعد المتبقية: <span id="seats-card">3 من 5</span></span>
+              <span class="text-red-400 font-bold animate-pulse">سارع!</span>
+            </div>
+            <div class="seats-bar">
+              <div class="seats-fill" style="width:60%;"></div>
+            </div>
+          </div>
+
+          <!-- Price -->
           <div class="mb-6">
-            <div class="text-sm text-gray-400 mb-2">السعر الحالي</div>
+            <div class="price-old mb-1">4,000 جنيه</div>
             <div class="flex justify-center items-end gap-2">
-              <div class="text-6xl md:text-7xl leading-none font-black text-white">4000</div>
-              <div class="text-brand text-2xl font-black mb-2">جنيه</div>
+              <div class="price-new">1,000</div>
+              <div style="color:#FFD700;" class="text-2xl font-black mb-2">جنيه</div>
+            </div>
+            <div class="text-xs text-gray-500 mt-1">السعر الأصلي 4,000 جنيه — بعد انتهاء العرض</div>
+          </div>
+
+          <!-- Countdown inside card -->
+          <div class="mb-6">
+            <p class="text-yellow-400/80 text-xs font-bold mb-2">⏳ الوقت المتبقي:</p>
+            <div class="flex justify-center gap-2">
+              <div class="countdown-box" style="min-width:56px;"><div class="countdown-num text-3xl" id="cd2-h">00</div><div class="countdown-label">ساعة</div></div>
+              <div style="color:#b8860b;font-size:1.4rem;font-weight:900;" class="flex items-center pb-3">:</div>
+              <div class="countdown-box" style="min-width:56px;"><div class="countdown-num text-3xl" id="cd2-m">00</div><div class="countdown-label">دقيقة</div></div>
+              <div style="color:#b8860b;font-size:1.4rem;font-weight:900;" class="flex items-center pb-3">:</div>
+              <div class="countdown-box" style="min-width:56px;"><div class="countdown-num text-3xl" id="cd2-s">00</div><div class="countdown-label">ثانية</div></div>
             </div>
           </div>
 
@@ -663,9 +907,9 @@
             <div class="chip rounded-2xl px-4 py-3 text-sm text-white"><i class="fa-solid fa-infinity text-brand ml-2"></i>مدى الحياة</div>
           </div>
 
-          <button onclick="openPayment()" class="w-full bg-brand hover:bg-white text-black font-black text-xl py-5 rounded-2xl btn flex justify-center items-center gap-3">
+          <button onclick="openPayment()" class="w-full bg-brand hover:bg-white text-black font-black text-xl py-5 rounded-2xl btn cta-pulse flex justify-center items-center gap-3">
             <i class="fab fa-whatsapp text-2xl"></i>
-            احجز مكانك الآن
+            احجز بـ 1,000 جنيه الآن
           </button>
           <p class="mt-4 text-gray-500 text-sm">هتتحول للواتساب لتأكيد الحجز واختيار طريقة الدفع</p>
         </div>
@@ -681,13 +925,9 @@
           <img src="https://i.postimg.cc/zXmLwcfx/image.jpg" class="w-full h-full object-cover" alt="إبراهيم بخيت" />
         </div>
       </div>
-
       <div class="md:w-2/3 text-center md:text-right">
         <h2 class="text-2xl md:text-3xl font-black mb-3 text-white">عن <span class="text-brand">إبراهيم بخيت</span></h2>
-        <p class="text-gray-200 leading-relaxed">
-          +6 سنين خبرة في تصميم الصور المصغرة لليوتيوب. الهدف من الكورس إنك تاخد الزبدة العملية، وتعرف توصل لنتيجة قوية بشكل أسرع وأوضح.
-        </p>
-
+        <p class="text-gray-200 leading-relaxed">+6 سنين خبرة في تصميم الصور المصغرة لليوتيوب. الهدف من الكورس إنك تاخد الزبدة العملية، وتعرف توصل لنتيجة قوية بشكل أسرع وأوضح.</p>
         <div class="flex justify-center md:justify-start gap-6 text-3xl mt-6">
           <a href="https://www.instagram.com/ibrahem_bakheet/" target="_blank" class="text-gray-400 hover:text-brand transition-colors"><i class="fab fa-instagram"></i></a>
           <a href="https://www.facebook.com/hema.pro.161/" target="_blank" class="text-gray-400 hover:text-brand transition-colors"><i class="fab fa-facebook"></i></a>
@@ -705,13 +945,18 @@
 
   <!-- PAYMENT MODAL -->
   <div id="payModal" class="fixed inset-0 bg-black/95 hidden items-center justify-center p-4 z-[9999] backdrop-blur-md opacity-0 transition-opacity duration-300">
-    <div class="bg-[#151515] border border-white/10 p-8 rounded-3xl max-w-md w-full text-center shadow-[0_0_60px_rgba(57,255,20,0.08)] transform scale-95 transition-transform duration-300" id="payModalContent">
-      <div class="w-16 h-16 bg-brand/10 rounded-full flex items-center justify-center mx-auto mb-6">
-        <i class="fas fa-check text-brand text-2xl"></i>
+    <div class="bg-[#151515] border border-yellow-500/20 p-8 rounded-3xl max-w-md w-full text-center shadow-[0_0_60px_rgba(255,215,0,0.06)] transform scale-95 transition-transform duration-300" id="payModalContent">
+      <div class="w-16 h-16 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+        <span style="font-size:2rem;">🌙</span>
       </div>
 
-      <h3 class="text-2xl font-black text-white mb-2">تأكيد الحجز</h3>
-      <p class="text-gray-400 mb-6">هتتحول للواتساب لإتمام الحجز واختيار طريقة الدفع المناسبة.</p>
+      <div class="eid-badge mb-3">عرض عيد الأضحى</div>
+      <h3 class="text-2xl font-black text-white mb-1 mt-3">تأكيد الحجز</h3>
+      <div class="flex justify-center items-center gap-3 mb-2">
+        <span class="price-old text-xl">4,000 جنيه</span>
+        <span style="color:#FFD700;" class="text-3xl font-black">1,000 جنيه</span>
+      </div>
+      <p class="text-gray-400 text-sm mb-6">هتتحول للواتساب لإتمام الحجز واختيار طريقة الدفع المناسبة.</p>
 
       <div class="flex flex-wrap justify-center gap-3 mb-8">
         <span class="chip text-white px-4 py-2 rounded-xl text-sm font-bold"><i class="fa-solid fa-mobile-screen text-brand ml-2"></i>Vodafone Cash</span>
@@ -720,7 +965,7 @@
         <span class="chip text-white px-4 py-2 rounded-xl text-sm font-bold"><i class="fa-brands fa-bitcoin text-brand ml-2"></i>Binance</span>
       </div>
 
-      <a href="https://api.whatsapp.com/send?phone=201025199409&text=مرحباً، أريد حجز كورس تصميم الصور المصغرة بسعر 4000 جنيه." class="block w-full bg-brand text-black font-black py-4 rounded-2xl mb-4 hover:bg-white transition-colors flex justify-center items-center gap-2">
+      <a href="https://api.whatsapp.com/send?phone=201025199409&text=مرحباً، أريد حجز كورس تصميم الصور المصغرة بعرض عيد الأضحى بسعر 1000 جنيه." class="block w-full bg-brand text-black font-black py-4 rounded-2xl mb-4 hover:bg-white transition-colors flex justify-center items-center gap-2">
         <i class="fab fa-whatsapp text-xl"></i>
         متابعة إلى واتساب
       </a>
@@ -735,11 +980,64 @@
     <img id="modalImage" src="" alt="صورة مكبرة" />
   </div>
 
+  <!-- STICKY BOTTOM CTA -->
+  <div class="sticky-cta" id="stickyCta">
+    <div class="max-w-3xl mx-auto flex items-center justify-between gap-4">
+      <div class="text-right hidden sm:block">
+        <div class="text-white font-black text-sm">عرض عيد الأضحى 🌙</div>
+        <div class="flex items-center gap-2">
+          <span class="price-old text-sm">4,000</span>
+          <span style="color:#FFD700;" class="font-black">1,000 جنيه فقط</span>
+          <span class="text-gray-400 text-xs">— أول 5 فقط</span>
+        </div>
+      </div>
+      <button onclick="openPayment()" class="flex-1 sm:flex-none bg-brand text-black font-black px-8 py-3 rounded-2xl btn cta-pulse flex items-center justify-center gap-2 text-base">
+        <i class="fab fa-whatsapp text-xl"></i>
+        احجز بـ 1,000 جنيه
+      </button>
+    </div>
+  </div>
+
   <script>
-    // Image modal
+    // ===== COUNTDOWN TIMER =====
+    // Set deadline: 48 hours from now stored in localStorage for consistency
+    function getDeadline() {
+      const stored = localStorage.getItem('eid_offer_deadline');
+      if (stored) return parseInt(stored);
+      const deadline = Date.now() + 48 * 60 * 60 * 1000;
+      localStorage.setItem('eid_offer_deadline', deadline);
+      return deadline;
+    }
+
+    const deadline = getDeadline();
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function updateCountdown() {
+      const diff = deadline - Date.now();
+      if (diff <= 0) {
+        ['cd-h','cd-m','cd-s','cd2-h','cd2-m','cd2-s'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = '00';
+        });
+        return;
+      }
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+
+      ['cd-h','cd2-h'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = pad(h); });
+      ['cd-m','cd2-m'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = pad(m); });
+      ['cd-s','cd2-s'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = pad(s); });
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // ===== IMAGE MODAL =====
     const imageModal = document.getElementById('imageModal');
     const modalImage = document.getElementById('modalImage');
-    const closeImageModal = document.getElementById('closeImageModal');
+    const closeImageModalBtn = document.getElementById('closeImageModal');
 
     document.querySelectorAll('.clickable-image').forEach(img => {
       img.addEventListener('click', () => {
@@ -748,12 +1046,12 @@
       });
     });
 
-    closeImageModal && closeImageModal.addEventListener('click', () => imageModal.classList.remove('active'));
+    closeImageModalBtn && closeImageModalBtn.addEventListener('click', () => imageModal.classList.remove('active'));
     imageModal && imageModal.addEventListener('click', e => {
       if (e.target === imageModal) imageModal.classList.remove('active');
     });
 
-    // Payment modal
+    // ===== PAYMENT MODAL =====
     function openPayment(){
       const modal = document.getElementById('payModal');
       const content = document.getElementById('payModalContent');
@@ -778,14 +1076,17 @@
       }, 280);
     }
 
-    // Navbar blur on scroll
-    const nav = document.getElementById('navbar');
+    // ===== STICKY CTA =====
+    const stickyCta = document.getElementById('stickyCta');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 30) nav.classList.add('backdrop-blur');
-      else nav.classList.remove('backdrop-blur');
+      if (window.scrollY > 600) {
+        stickyCta.classList.add('visible');
+      } else {
+        stickyCta.classList.remove('visible');
+      }
     });
 
-    // FAQ
+    // ===== FAQ =====
     document.querySelectorAll('.faq-toggle').forEach(btn => {
       btn.addEventListener('click', () => {
         const item = btn.closest('.faq-item');
